@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "Safwan Shaheer <devorein00@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "argon2": "^0.28.2",
+    "express": "^4.17.1",
+    "pg": "^8.6.0"
+  }
 }
