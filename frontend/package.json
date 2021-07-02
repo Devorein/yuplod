@@ -45,5 +45,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-icons": "^3.0.0",
+    "@types/react-router-dom": "^5.1.7",
+    "sass": "^1.35.1"
   }
 }
