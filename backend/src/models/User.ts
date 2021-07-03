@@ -57,4 +57,8 @@ export default class User {
     );
     return users[0];
   }
+
+  static async delete(id: string) {
+    await pool.query(`DELETE FROM users where id = $1`, [id]);
+  }
 }

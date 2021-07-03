@@ -64,3 +64,13 @@ export async function createUser(
     }
   }
 }
+
+export async function deleteUser(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    await User.delete(id);
+    createJsonSuccessResponse(res, null);
+  } catch (err) {
+    createJsonErrorResponse(res, [err.message]);
+  }
+}

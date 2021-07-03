@@ -4,6 +4,11 @@ export function createJsonSuccessResponse<T>(res: Response, data: T) {
   res.status(200).json({ data, status: 'success' });
 }
 
-export function createJsonErrorResponse(res: Response, errors: string[]) {
-  res.status(404).json({ messages: errors, status: 'error' });
+export function createJsonErrorResponse(
+  res: Response,
+  errors: string[],
+  statusCode?: number
+) {
+  statusCode = statusCode ?? 404;
+  res.status(statusCode).json({ messages: errors, status: 'error' });
 }
