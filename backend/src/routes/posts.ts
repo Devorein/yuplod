@@ -1,12 +1,8 @@
 import express from "express";
-import { IPost } from "../types";
-import { pool } from "../utils";
+import { getAllPosts } from "../controllers";
 
 const PostsRouter = express.Router();
 
-PostsRouter.route("/").get(async (_, res)=>{
-  const {rows} = await pool.query<IPost>("SELECT * from posts");
-  res.status(200).json({ data: rows, status: 'success' });
-});
+PostsRouter.route("/").get(getAllPosts);
 
 export default PostsRouter;
