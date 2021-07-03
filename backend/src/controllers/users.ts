@@ -5,7 +5,8 @@ import {
   checkFields,
   createJsonErrorResponse,
   createJsonSuccessResponse,
-  validateEmail
+  validateEmail,
+  validatePassword
 } from '../utils';
 
 export async function getAllUsers(_: Request, res: Response) {
@@ -43,7 +44,13 @@ export async function createUser(
     ],
     'first_name',
     'last_name',
-    'password',
+    [
+      'password',
+      (password: string) =>
+        validatePassword(password)
+          ? true
+          : 'Password must contain at least 1 lowercase, 1 uppercase, 1 number and 8 characters'
+    ],
     'username'
   ]);
   if (errorMessages.length !== 0) {
