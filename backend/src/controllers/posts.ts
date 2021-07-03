@@ -35,7 +35,15 @@ export async function updatePost(
   try {
     const { user } = req as any as IRequest;
     const post = await Post.update(id, data, user.id);
-    createJsonSuccessResponse(res, post);
+    if (!post) {
+      createJsonErrorResponse(
+        res,
+        ['Unauthorized to perform this action'],
+        401
+      );
+    } else {
+      createJsonSuccessResponse(res, post);
+    }
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);
   }

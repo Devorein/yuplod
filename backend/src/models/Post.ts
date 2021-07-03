@@ -26,7 +26,7 @@ export default class Post {
     const { rows: posts } = await pool.query<IPost>(
       `UPDATE posts SET ${updateQuery} updated_at = $${
         lastIndex + 1
-      } WHERE id = $${lastIndex + 2} AND user_id = ${
+      } WHERE id = $${lastIndex + 2} AND user_id = $${
         lastIndex + 3
       } RETURNING *`,
       params
