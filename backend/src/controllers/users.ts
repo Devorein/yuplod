@@ -45,7 +45,7 @@ export async function createUser(
       const user = await User.create(data);
       createJsonSuccessResponse(res, user);
     } catch (err) {
-      createJsonErrorResponse(res, err.message);
+      createJsonErrorResponse(res, [err.message]);
     }
   }
 }
