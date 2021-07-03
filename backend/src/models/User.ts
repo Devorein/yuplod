@@ -1,6 +1,8 @@
 import { IUser, IUserCreate } from '../types';
 import { pool } from '../utils';
 
+const fieldsWithoutPassword =
+  'id, username, email, first_name, last_name, created_at, updated_at';
 export default class User {
   static async getAll() {
     const { rows: users } = await pool.query<IUser>('SELECT * FROM users');
@@ -9,7 +11,7 @@ export default class User {
 
   static async getById(id: string) {
     const { rows: users } = await pool.query<IUser>(
-      `SELECT * FROM users WHERE id = $1`,
+      `SELECT ${fieldsWithoutPassword} FROM users WHERE id = $1`,
       [id]
     );
     return users;
@@ -17,7 +19,7 @@ export default class User {
 
   static async getByEmail(email: string) {
     const { rows: users } = await pool.query<IUser>(
-      `SELECT * FROM users WHERE email = $1`,
+      `SELECT ${fieldsWithoutPassword} FROM users WHERE email = $1`,
       [email]
     );
     return users;
@@ -25,7 +27,7 @@ export default class User {
 
   static async getByUsername(username: string) {
     const { rows: users } = await pool.query<IUser>(
-      `SELECT * FROM users WHERE username = $1`,
+      `SELECT ${fieldsWithoutPassword} FROM users WHERE username = $1`,
       [username]
     );
     return users;
@@ -33,7 +35,7 @@ export default class User {
 
   static async getByUsernameOrEmail(email: string, username: string) {
     const { rows: users } = await pool.query<IUser>(
-      `SELECT * FROM users WHERE username = $1 or email = $2`,
+      `SELECT ${fieldsWithoutPassword} FROM users WHERE username = $1 or email = $2`,
       [username, email]
     );
     return users;
@@ -42,7 +44,7 @@ export default class User {
   static async create(data: IUserCreate) {
     const currentIsoTime = new Date().toISOString();
     const { rows: users } = await pool.query<IUser>(
-      `INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      `INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING ${fieldsWithoutPassword}`,
       [
         data.first_name,
         data.last_name,
