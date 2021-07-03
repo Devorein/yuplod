@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IPostUpdate } from 'src/types';
+import { IPostCreate, IPostUpdate } from 'src/types';
 import { Post } from '../models';
 import { createJsonErrorResponse, createJsonSuccessResponse } from '../utils';
 
@@ -41,6 +41,19 @@ export async function deletePost(req: Request, res: Response) {
     const { id } = req.params;
     await Post.delete(id);
     createJsonSuccessResponse(res, null);
+  } catch (err) {
+    createJsonErrorResponse(res, [err.message]);
+  }
+}
+
+export async function createPost(
+  req: Request<any, any, { data: IPostCreate }>,
+  res: Response
+) {
+  try {
+    const { data } = req.body;
+    const post = await Post.create(data);
+    createJsonSuccessResponse(res, post);
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);
   }
