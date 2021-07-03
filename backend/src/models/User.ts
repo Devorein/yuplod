@@ -42,7 +42,7 @@ export default class User {
   static async create(data: IUserCreate) {
     const currentIsoTime = new Date().toISOString();
     const { rows: users } = await pool.query<IUser>(
-      `INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      `INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
       [
         data.first_name,
         data.last_name,

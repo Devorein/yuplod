@@ -60,9 +60,9 @@ export async function createPost(
   res: Response
 ) {
   const { data } = req.body;
-  const messages = checkFields(data, ['caption', 'image_url']);
-  if (messages.length !== 0) {
-    createJsonErrorResponse(res, messages);
+  const errorMessages = checkFields(data, ['caption', 'image_url']);
+  if (errorMessages.length !== 0) {
+    createJsonErrorResponse(res, errorMessages);
   } else {
     try {
       const post = await Post.create(data);
