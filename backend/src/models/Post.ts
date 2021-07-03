@@ -1,4 +1,4 @@
-import { IPost, IPostUpdate } from '../types';
+import { IPost, IPostCreate, IPostUpdate } from '../types';
 import { pool } from '../utils';
 
 export default class Post {
@@ -19,6 +19,21 @@ export default class Post {
     const { rows: posts } = await pool.query<IPost>(
       `UPDATE posts SET caption = $1, image_url = $2 WHERE id = $3 RETURNING *`,
       [data.caption, data.image_url, id]
+    );
+    return posts[0];
+  }
+
+  static async create(data: IPostCreate) {
+    const currentIsoTime = new Date().toISOString();
+    const { rows: posts } = await pool.query<IPost>(
+      `INSERT INTO posts (image_url, user_id, caption, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [
+        data.image_url,
+        data.user_id,
+        data.caption,
+        currentIsoTime,
+        currentIsoTime
+      ]
     );
     return posts[0];
   }

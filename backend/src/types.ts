@@ -22,3 +22,9 @@ export interface IPostUpdate {
   image_url: string;
   caption: string;
 }
+
+export interface IPostCreate {
+  image_url: string;
+  caption: string;
+  user_id: number;
+}
