@@ -1,9 +1,14 @@
 import express from 'express';
-import { getAllPosts, getPostById, updatePost } from '../controllers';
+import {
+  deletePost,
+  getAllPosts,
+  getPostById,
+  updatePost
+} from '../controllers';
 
 const PostsRouter = express.Router();
 
 PostsRouter.route('/').get(getAllPosts);
-PostsRouter.route('/:id').get(getPostById).put(updatePost);
+PostsRouter.route('/:id').get(getPostById).put(updatePost).delete(deletePost);
 
 export default PostsRouter;

@@ -34,3 +34,13 @@ export async function updatePost(
     createJsonErrorResponse(res, [err.message]);
   }
 }
+
+export async function deletePost(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    await Post.delete(parseInt(id));
+    createJsonSuccessResponse(res, null);
+  } catch (err) {
+    createJsonErrorResponse(res, [err.message]);
+  }
+}
