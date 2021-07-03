@@ -23,12 +23,13 @@ export async function getPostById(req: Request, res: Response) {
 }
 
 export async function updatePost(
-  req: Request<string, any, { data: IPostUpdate }>,
+  req: Request<{ id: string }, any, { data: IPostUpdate }>,
   res: Response
 ) {
   try {
-    const { data } = req.body;
-    const post = await Post.update(data);
+    const { data } = req.body,
+      { id } = req.params;
+    const post = await Post.update(id, data);
     createJsonSuccessResponse(res, post);
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);
@@ -38,7 +39,7 @@ export async function updatePost(
 export async function deletePost(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    await Post.delete(parseInt(id));
+    await Post.delete(id);
     createJsonSuccessResponse(res, null);
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);

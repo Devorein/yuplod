@@ -15,15 +15,15 @@ export default class Post {
     return posts;
   }
 
-  static async update(data: IPostUpdate) {
+  static async update(id: string, data: IPostUpdate) {
     const { rows: posts } = await pool.query<IPost>(
       `UPDATE posts SET caption = $1, image_url = $2 WHERE id = $3 RETURNING *`,
-      [data.caption, data.image_url, data.id]
+      [data.caption, data.image_url, id]
     );
     return posts[0];
   }
 
-  static async delete(id: number) {
+  static async delete(id: string) {
     await pool.query<IPost>(`DELETE FROM posts where id = $1`, [id]);
   }
 }
