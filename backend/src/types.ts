@@ -26,13 +26,9 @@ export interface IUserCreate {
   last_name: string;
 }
 
-export interface IPostUpdate {
+export interface IPostCreate {
   image_url: string;
   caption: string;
 }
 
-export interface IPostCreate {
-  image_url: string;
-  caption: string;
-  user_id: number;
-}
+export interface IPostUpdate extends Partial<IPostCreate> {}

@@ -32,16 +32,11 @@ export async function updatePost(
 ) {
   const { data } = req.body,
     { id } = req.params;
-  const messages = checkFields(data, ['caption', 'image_url']);
-  if (messages.length !== 0) {
-    createJsonErrorResponse(res, messages);
-  } else {
-    try {
-      const post = await Post.update(id, data);
-      createJsonSuccessResponse(res, post);
-    } catch (err) {
-      createJsonErrorResponse(res, [err.message]);
-    }
+  try {
+    const post = await Post.update(id, data);
+    createJsonSuccessResponse(res, post);
+  } catch (err) {
+    createJsonErrorResponse(res, [err.message]);
   }
 }
 

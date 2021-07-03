@@ -1,5 +1,5 @@
 import { IPost, IPostCreate, IPostUpdate } from '../types';
-import { pool } from '../utils';
+import { generateDynamicUpdateQuery, pool } from '../utils';
 
 export default class Post {
   static async getAll() {
@@ -17,9 +17,17 @@ export default class Post {
 
   static async update(id: string, data: IPostUpdate) {
     const currentIsoTime = new Date().toISOString();
+    const [updateQuery, params] = generateDynamicUpdateQuery(data, [
+      'caption',
+      'image_url'
+    ]);
+    const lastIndex = params.length;
+    params.push(currentIsoTime, id);
     const { rows: posts } = await pool.query<IPost>(
-      `UPDATE posts SET caption = $1, image_url = $2, updated_at = $3 WHERE id = $4 RETURNING *`,
-      [data.caption, data.image_url, currentIsoTime, id]
+      `UPDATE posts SET ${updateQuery} updated_at = $${
+        lastIndex + 1
+      } WHERE id = $${lastIndex + 2} RETURNING *`,
+      params
     );
     return posts[0];
   }
@@ -28,14 +36,8 @@ export default class Post {
   static async create(data: IPostCreate) {
     const currentIsoTime = new Date().toISOString();
     const { rows: posts } = await pool.query<IPost>(
-      `INSERT INTO posts (image_url, user_id, caption, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [
-        data.image_url,
-        data.user_id,
-        data.caption,
-        currentIsoTime,
-        currentIsoTime
-      ]
+      `INSERT INTO posts (image_url, caption, created_at, updated_at) VALUES ($1, $3, $4, $5) RETURNING *`,
+      [data.image_url, data.caption, currentIsoTime, currentIsoTime]
     );
     return posts[0];
   }

@@ -65,6 +65,7 @@ export async function createUser(
   }
 }
 
+// ? Get the id from the req object rather than through params
 export async function deleteUser(req: Request, res: Response) {
   const { id } = req.params;
   try {
