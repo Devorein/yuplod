@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { IUserCreate } from 'src/types';
 import { User } from '../models';
 import {
@@ -49,7 +50,7 @@ export async function createUser(
       (password: string) =>
         validatePassword(password)
           ? true
-          : 'Password must contain at least 1 lowercase, 1 uppercase, 1 number and 8 characters'
+          : 'Password must contain at least 1 lowercase, 1 uppercase, 1 digit and 8 characters'
     ],
     'username'
   ]);
@@ -58,7 +59,14 @@ export async function createUser(
   } else {
     try {
       const user = await User.create(data);
-      createJsonSuccessResponse(res, user);
+      const token = jwt.sign(
+        { id: user.id },
+        process.env.JWT_SECRET as string,
+        {
+          expiresIn: process.env.JWT_EXPIRE
+        }
+      );
+      createJsonSuccessResponse(res, { user, token });
     } catch (err) {
       createJsonErrorResponse(res, [err.message]);
     }

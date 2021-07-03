@@ -1,3 +1,4 @@
+import argon2 from 'argon2';
 import { IUser, IUserCreate } from '../types';
 import { pool } from '../utils';
 
@@ -43,13 +44,14 @@ export default class User {
 
   static async create(data: IUserCreate) {
     const currentIsoTime = new Date().toISOString();
+    const hashedPassword = await argon2.hash(data.password);
     const { rows: users } = await pool.query<IUser>(
       `INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING ${fieldsWithoutPassword}`,
       [
         data.first_name,
         data.last_name,
         data.email,
-        data.password,
+        hashedPassword,
         data.username,
         currentIsoTime,
         currentIsoTime
