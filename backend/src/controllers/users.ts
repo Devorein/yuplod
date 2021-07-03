@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { IUserCreate } from 'src/types';
 import { User } from '../models';
+import { IRequest, IUserCreate } from '../types';
 import {
   checkFields,
   createJsonErrorResponse,
@@ -73,11 +73,10 @@ export async function createUser(
   }
 }
 
-// ? Get the id from the req object rather than through params
 export async function deleteUser(req: Request, res: Response) {
-  const { id } = req.params;
+  const { user } = req as IRequest;
   try {
-    await User.delete(id);
+    await User.delete(user.id);
     createJsonSuccessResponse(res, null);
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);

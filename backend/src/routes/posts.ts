@@ -6,10 +6,14 @@ import {
   getPostById,
   updatePost
 } from '../controllers';
+import { auth } from '../middlewares';
 
 const PostsRouter = express.Router();
 
-PostsRouter.route('/').get(getAllPosts).post(createPost);
-PostsRouter.route('/:id').get(getPostById).put(updatePost).delete(deletePost);
+PostsRouter.route('/').get(getAllPosts).post(auth, createPost);
+PostsRouter.route('/:id')
+  .get(getPostById)
+  .put(auth, updatePost)
+  .delete(auth, deletePost);
 
 export default PostsRouter;

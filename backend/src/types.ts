@@ -1,3 +1,4 @@
+import { Request } from 'express';
 export interface IPost {
   id: number;
   created_at: string;
@@ -32,3 +33,4 @@ export interface IPostCreate {
 }
 
 export interface IPostUpdate extends Partial<IPostCreate> {}
+export type IRequest = Request & { user: IUser };
