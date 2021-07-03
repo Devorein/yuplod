@@ -4,7 +4,8 @@ import { User } from '../models';
 import {
   checkFields,
   createJsonErrorResponse,
-  createJsonSuccessResponse
+  createJsonSuccessResponse,
+  validateEmail
 } from '../utils';
 
 export async function getAllUsers(_: Request, res: Response) {
@@ -32,7 +33,14 @@ export async function createUser(
 ) {
   const { data } = req.body;
   const errorMessages = checkFields(data, [
-    'email',
+    [
+      'email',
+      (email: string) => {
+        const isValid = validateEmail(email);
+        if (isValid) return true;
+        else return 'Invalid email provided';
+      }
+    ],
     'first_name',
     'last_name',
     'password',

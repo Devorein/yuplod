@@ -1,6 +1,6 @@
 export function checkFields<T>(
   data: T,
-  fields: (keyof T | [keyof T, (data: any) => string | undefined])[]
+  fields: (keyof T | [keyof T, (data: any) => string | true])[]
 ) {
   const messages: string[] = [];
   fields.forEach((field) => {
@@ -11,8 +11,10 @@ export function checkFields<T>(
     } else if (Array.isArray(field)) {
       const [fieldToCheck, callback] = field;
       if (data[fieldToCheck] !== undefined && data[fieldToCheck] !== null) {
-        const message = callback(data[fieldToCheck]);
-        if (message) messages.push(message);
+        const result = callback(data[fieldToCheck]);
+        if (typeof result === 'string') {
+          messages.push(result);
+        }
       } else {
         messages.push(`field:${fieldToCheck} is required`);
       }
