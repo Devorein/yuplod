@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IPostCreate, IPostUpdate } from 'src/types';
+import { IPostCreate, IPostUpdate, IRequest } from 'src/types';
 import { Post } from '../models';
 import {
   checkFields,
@@ -33,7 +33,8 @@ export async function updatePost(
   const { data } = req.body,
     { id } = req.params;
   try {
-    const post = await Post.update(id, data);
+    const { user } = req as any as IRequest;
+    const post = await Post.update(id, data, user.id);
     createJsonSuccessResponse(res, post);
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);
@@ -43,8 +44,17 @@ export async function updatePost(
 export async function deletePost(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    await Post.delete(id);
-    createJsonSuccessResponse(res, null);
+    const { user } = req as any as IRequest;
+    const post = await Post.delete(id, user.id);
+    if (!post) {
+      createJsonErrorResponse(
+        res,
+        ['Unauthorized to perform this action'],
+        401
+      );
+    } else {
+      createJsonSuccessResponse(res, { deleted: 1 });
+    }
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);
   }
@@ -60,7 +70,8 @@ export async function createPost(
     createJsonErrorResponse(res, errorMessages);
   } else {
     try {
-      const post = await Post.create(data);
+      const { user } = req as any as IRequest;
+      const post = await Post.create(data, user.id);
       createJsonSuccessResponse(res, post);
     } catch (err) {
       createJsonErrorResponse(res, [err.message]);
