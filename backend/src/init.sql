@@ -4,7 +4,9 @@ create table users (
   username varchar(255),
   email varchar(255),
   password varchar(255)
-)
+  created_at timestamp,
+  updated_at timestamp
+);
 
 -- SQL Code to create posts table
 create table posts (
