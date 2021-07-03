@@ -1,19 +1,21 @@
 -- SQL code to create users table
-create table users (
-  id serial primary key,
-  username varchar(255),
-  email varchar(255),
-  password varchar(255)
-  created_at timestamp,
-  updated_at timestamp
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  username VARCHAR(255),
+  email VARCHAR(255),
+  password VARCHAR(255)
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
 );
 
 -- SQL Code to create posts table
-create table posts (
-  id serial primary key,
-  user_id integer references users(id) on delete cascade,
-  image_url text,
-  caption text,
-  created_at timestamp,
-  updated_at timestamp
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  image_url TEXT,
+  caption TEXT,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
 );
