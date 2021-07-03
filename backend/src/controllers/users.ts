@@ -31,3 +31,7 @@ export async function deleteUser(req: Request, res: Response) {
     createJsonErrorResponse(res, [err.message]);
   }
 }
+
+export async function getCurrentUser(req: Request, res: Response) {
+  createJsonSuccessResponse(res, (req as IRequest).user);
+}
