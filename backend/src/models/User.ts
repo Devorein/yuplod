@@ -10,7 +10,15 @@ export default class User {
     return users;
   }
 
-  static async getById(id: string) {
+  static async getByIdWithPassword(id: number) {
+    const { rows: users } = await pool.query<IUser>(
+      `SELECT * FROM users WHERE id = $1`,
+      [id]
+    );
+    return users;
+  }
+
+  static async getById(id: number) {
     const { rows: users } = await pool.query<IUser>(
       `SELECT ${fieldsWithoutPassword} FROM users WHERE id = $1`,
       [id]
@@ -18,17 +26,17 @@ export default class User {
     return users;
   }
 
-  static async getByEmail(email: string) {
+  static async getByEmailWithPassword(email: string) {
     const { rows: users } = await pool.query<IUser>(
-      `SELECT ${fieldsWithoutPassword} FROM users WHERE email = $1`,
+      `SELECT * FROM users WHERE email = $1`,
       [email]
     );
     return users;
   }
 
-  static async getByUsername(username: string) {
+  static async getByUsernameWithPassword(username: string) {
     const { rows: users } = await pool.query<IUser>(
-      `SELECT ${fieldsWithoutPassword} FROM users WHERE username = $1`,
+      `SELECT * FROM users WHERE username = $1`,
       [username]
     );
     return users;

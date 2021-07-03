@@ -15,7 +15,7 @@ export async function getAllUsers(_: Request, res: Response) {
 export async function getUserById(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const users = await User.getById(id);
+    const users = await User.getById(parseInt(id));
     createJsonSuccessResponse(res, users);
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);

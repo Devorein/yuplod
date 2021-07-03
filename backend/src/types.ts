@@ -34,3 +34,8 @@ export interface IPostCreate {
 
 export interface IPostUpdate extends Partial<IPostCreate> {}
 export type IRequest = Request & { user: IUser };
+export interface ILoginInput {
+  password: string;
+  username: string;
+  email: string;
+}

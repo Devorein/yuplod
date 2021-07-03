@@ -1,11 +1,12 @@
+import argon2 from 'argon2';
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 import { User } from '../models';
-import { IUserCreate } from '../types';
+import { ILoginInput, IUser, IUserCreate } from '../types';
 import {
   checkFields,
   createJsonErrorResponse,
   createJsonSuccessResponse,
+  createJwtToken,
   validateEmail,
   validatePassword
 } from '../utils';
@@ -40,16 +41,42 @@ export async function register(
   } else {
     try {
       const user = await User.create(data);
-      const token = jwt.sign(
-        { id: user.id },
-        process.env.JWT_SECRET as string,
-        {
-          expiresIn: process.env.JWT_EXPIRE
-        }
-      );
+      const token = createJwtToken(user.id);
       createJsonSuccessResponse(res, { user, token });
     } catch (err) {
       createJsonErrorResponse(res, [err.message]);
     }
+  }
+}
+
+export async function login(
+  req: Request<any, any, { data: ILoginInput }>,
+  res: Response
+) {
+  try {
+    const { data } = req.body;
+    if (!data.username && !data.email) {
+      createJsonErrorResponse(res, ['Provide username or email']);
+    }
+    let user: IUser | null = null;
+    if (data.email) {
+      user = (await User.getByEmailWithPassword(data.email))[0];
+    } else if (data.username) {
+      user = (await User.getByUsernameWithPassword(data.username))[0];
+    }
+
+    if (!user) {
+      createJsonErrorResponse(res, ["User doesn't exist"]);
+    } else {
+      const { password } = user;
+      const isMatch = await argon2.verify(password, data.password);
+      if (isMatch) {
+        createJsonSuccessResponse(res, { token: createJwtToken(user.id) });
+      } else {
+        createJsonErrorResponse(res, ['Wrong password']);
+      }
+    }
+  } catch (err) {
+    createJsonErrorResponse(res, [err.message]);
   }
 }
