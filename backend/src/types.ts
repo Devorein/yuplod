@@ -18,6 +18,14 @@ export interface IUser {
   last_name: string;
 }
 
+export interface IUserCreate {
+  email: string;
+  username: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+}
+
 export interface IPostUpdate {
   image_url: string;
   caption: string;

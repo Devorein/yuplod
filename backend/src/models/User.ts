@@ -1,4 +1,4 @@
-import { IUser } from '../types';
+import { IUser, IUserCreate } from '../types';
 import { pool } from '../utils';
 
 export default class User {
@@ -37,5 +37,22 @@ export default class User {
       [username, email]
     );
     return users;
+  }
+
+  static async create(data: IUserCreate) {
+    const currentIsoTime = new Date().toISOString();
+    const { rows: users } = await pool.query<IUser>(
+      `INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        data.first_name,
+        data.last_name,
+        data.email,
+        data.password,
+        data.username,
+        currentIsoTime,
+        currentIsoTime
+      ]
+    );
+    return users[0];
   }
 }
