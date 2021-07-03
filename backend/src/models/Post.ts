@@ -16,9 +16,10 @@ export default class Post {
   }
 
   static async update(id: string, data: IPostUpdate) {
+    const currentIsoTime = new Date().toISOString();
     const { rows: posts } = await pool.query<IPost>(
-      `UPDATE posts SET caption = $1, image_url = $2 WHERE id = $3 RETURNING *`,
-      [data.caption, data.image_url, id]
+      `UPDATE posts SET caption = $1, image_url = $2, updated_at = $3 WHERE id = $4 RETURNING *`,
+      [data.caption, data.image_url, currentIsoTime, id]
     );
     return posts[0];
   }
