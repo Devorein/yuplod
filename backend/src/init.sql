@@ -1,3 +1,11 @@
+-- SQL code to create users table
+create table users (
+  id serial primary key,
+  username varchar(255),
+  email varchar(255),
+  password varchar(255)
+)
+
 -- SQL Code to create posts table
 create table posts (
   id serial primary key,
@@ -7,11 +15,3 @@ create table posts (
   created_at timestamp,
   updated_at timestamp
 );
-
--- SQL code to create users table
-create table users (
-  id serial primary key,
-  username varchar(255),
-  email varchar(255),
-  password varchar(255)
-)
