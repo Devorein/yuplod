@@ -1,4 +1,4 @@
-export function checkFields(data: any, fields: string[]) {
+export function checkFields<T>(data: T, fields: (keyof T)[]) {
   const messages: string[] = [];
   fields.forEach((field) => {
     if (data[field] === undefined || data[field] === null) {

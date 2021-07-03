@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { IPostCreate, IPostUpdate } from 'src/types';
 import { Post } from '../models';
-import { createJsonErrorResponse, createJsonSuccessResponse } from '../utils';
+import {
+  checkFields,
+  createJsonErrorResponse,
+  createJsonSuccessResponse
+} from '../utils';
 
 export async function getAllPosts(_: Request, res: Response) {
   try {
@@ -26,13 +30,18 @@ export async function updatePost(
   req: Request<{ id: string }, any, { data: IPostUpdate }>,
   res: Response
 ) {
-  try {
-    const { data } = req.body,
-      { id } = req.params;
-    const post = await Post.update(id, data);
-    createJsonSuccessResponse(res, post);
-  } catch (err) {
-    createJsonErrorResponse(res, [err.message]);
+  const { data } = req.body,
+    { id } = req.params;
+  const messages = checkFields(data, ['caption', 'image_url']);
+  if (messages.length !== 0) {
+    createJsonErrorResponse(res, messages);
+  } else {
+    try {
+      const post = await Post.update(id, data);
+      createJsonSuccessResponse(res, post);
+    } catch (err) {
+      createJsonErrorResponse(res, [err.message]);
+    }
   }
 }
 
@@ -50,11 +59,16 @@ export async function createPost(
   req: Request<any, any, { data: IPostCreate }>,
   res: Response
 ) {
-  try {
-    const { data } = req.body;
-    const post = await Post.create(data);
-    createJsonSuccessResponse(res, post);
-  } catch (err) {
-    createJsonErrorResponse(res, [err.message]);
+  const { data } = req.body;
+  const messages = checkFields(data, ['caption', 'image_url']);
+  if (messages.length !== 0) {
+    createJsonErrorResponse(res, messages);
+  } else {
+    try {
+      const post = await Post.create(data);
+      createJsonSuccessResponse(res, post);
+    } catch (err) {
+      createJsonErrorResponse(res, [err.message]);
+    }
   }
 }
