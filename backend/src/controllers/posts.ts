@@ -22,11 +22,11 @@ export async function getPostById(req: Request, res: Response) {
 }
 
 export async function updatePost(
-  req: Request<{ data: IPostUpdate }>,
+  req: Request<string, any, { data: IPostUpdate }>,
   res: Response
 ) {
   try {
-    const { data } = req.params;
+    const { data } = req.body;
     const post = await Post.update(data);
     res.status(200).json({ data: post, status: 'success' });
   } catch (err) {
