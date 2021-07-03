@@ -1,7 +1,7 @@
 export interface IPost{
   id: number
-  created_at: number
-  updated_at: number
+  created_at: string
+  updated_at: string
   image_url: string
   caption: string
   user_id: number
@@ -9,8 +9,8 @@ export interface IPost{
 
 export interface IUser{
   id: number
-  created_at: number
-  updated_at: number
+  created_at: string
+  updated_at: string
   email: string
   username: string
   password: string
