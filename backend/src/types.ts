@@ -17,3 +17,9 @@ export interface IUser{
   first_name: string
   last_name: string
 }
+
+export interface IPostUpdate {
+  image_url: string
+  caption: string
+  id: number
+}
