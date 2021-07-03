@@ -1,21 +1,22 @@
-import { Request, Response } from "express";
-import { User } from "../models";
+import { Request, Response } from 'express';
+import { User } from '../models';
+import { createJsonErrorResponse, createJsonSuccessResponse } from '../utils';
 
-export async function getAllUsers(_: Request, res: Response){
-  try{
+export async function getAllUsers(_: Request, res: Response) {
+  try {
     const users = await User.getAll();
-    res.status(200).json({ data: users, status: 'success' });
-  } catch(err){
-    res.status(404).json({ message: [err.message], status: 'error' });
+    createJsonSuccessResponse(res, users);
+  } catch (err) {
+    createJsonErrorResponse(res, [err.message]);
   }
 }
 
-export async function getUserById(req: Request, res: Response){
-  try{
-    const {id} = req.params;
+export async function getUserById(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
     const users = await User.getById(id);
-    res.status(200).json({ data: users, status: 'success' });
-  } catch(err){
-    res.status(404).json({ message: [err.message], status: 'error' });
+    createJsonSuccessResponse(res, users);
+  } catch (err) {
+    createJsonErrorResponse(res, [err.message]);
   }
 }
