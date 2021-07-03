@@ -24,6 +24,7 @@ export default class Post {
     return posts[0];
   }
 
+  // ? Remove user_id from the payload and opt to get it from the current authenticated user
   static async create(data: IPostCreate) {
     const currentIsoTime = new Date().toISOString();
     const { rows: posts } = await pool.query<IPost>(
