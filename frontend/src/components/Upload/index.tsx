@@ -1,7 +1,6 @@
 import { Typography } from "@material-ui/core";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import "./style.scss";
-
 export interface UploadProps {
   onLoad: (result: string, file: File) => any
   postRead: (files: any[]) => void
@@ -42,7 +41,7 @@ export default function Upload(props: UploadProps) {
     });
   };
 
-  const useDropZoneOptions: DropzoneOptions = { onDrop, accept: props.accept ?? [".yml", ".yaml", "application/json"] };
+  const useDropZoneOptions: DropzoneOptions = { onDrop, accept: props.accept ?? [".yml", ".yaml", "application/json"], maxFiles };
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone(useDropZoneOptions)
   let borderColor = '#404040';
@@ -54,8 +53,6 @@ export default function Upload(props: UploadProps) {
     borderColor = '#2196f3';
 
   const rootProps = getRootProps()
-
-  rootProps.maxFiles = maxFiles;
 
   return <Typography component="div" variant="h6" style={{ borderColor }} className={`Upload bold bg-light ${className ?? ''}`} {...rootProps as any}>
     <input {...getInputProps()} />

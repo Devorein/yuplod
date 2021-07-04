@@ -11,7 +11,6 @@
   "author": "Safwan Shaheer <devorein00@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@types/shortid": "^0.0.29",
     "argon2": "^0.28.2",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -19,8 +18,7 @@
     "express-fileupload": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
-    "shortid": "^2.2.16",
-    "uuid": "^8.3.2"
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",
@@ -28,6 +26,7 @@
     "@types/express-fileupload": "^1.1.6",
     "@types/jsonwebtoken": "^8.5.3",
     "@types/pg": "^8.6.0",
+    "@types/shortid": "^0.0.29",
     "@types/uuid": "^8.3.0",
     "nodemon": "^2.0.9",
     "typescript": "^4.3.5"

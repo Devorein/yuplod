@@ -8,6 +8,7 @@ CREATE TABLE posts (
   updated_at TIMESTAMP
 );
 
+-- Post table seeder
 INSERT INTO posts (image_url, user_id, caption, created_at, updated_at) VALUES ('http://dummyimage.com/487x134.png/5fa2dd/ffffff', 4, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', '2021-05-04T21:06:11Z', '2021-06-02T10:11:58Z');
 INSERT INTO posts (image_url, user_id, caption, created_at, updated_at) VALUES ('http://dummyimage.com/400x166.png/dddddd/000000', 4, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', '2021-05-21T17:41:27Z', '2021-06-05T03:01:45Z');
 INSERT INTO posts (image_url, user_id, caption, created_at, updated_at) VALUES ('http://dummyimage.com/445x233.png/dddddd/000000', 9, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', '2021-05-12T18:32:27Z', '2021-06-05T12:20:42Z');

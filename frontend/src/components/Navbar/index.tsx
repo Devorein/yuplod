@@ -32,7 +32,6 @@ export default function Navbar() {
           localStorage.removeItem(JWT_TOKEN_LS_KEY)
           setCurrentUser(null)
         }} />
-        <NavbarButton to={`/profile/${currentUser!.id}`} text={"Profile"} />
         <NavbarButton to={`/create`} text={"Create"} />
         <NavbarButton to={`/`} text={"Home"} />
       </div>
