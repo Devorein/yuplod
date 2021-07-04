@@ -1,10 +1,10 @@
-import { Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from 'react';
 import * as Yup from 'yup';
 import { useCreatePostMutation } from "../../api";
-import { InputField } from '../../components';
+import { FormButton, InputField } from '../../components';
 import { ICreatePostPayload } from "../../types";
+import "./style.scss";
 
 const createPostInputSchema = Yup.object().shape({
   caption: Yup.string()
@@ -22,7 +22,7 @@ export default function Create() {
       {({ isSubmitting, isValid }) =>
         <Form className="Create flex fd-c">
           <InputField multiline rows={5} name="caption" placeholder="Caption for your post" label="Caption" />
-          <Button disabled={!isSubmitting && !isValid} type="submit" variant="contained" color="primary" className={`Create-button fs-20 fw-700 mt-10`}>Create</Button>
+          <FormButton disabled={!isSubmitting && !isValid} label={"Create"} />
         </Form>
       }
     </Formik>

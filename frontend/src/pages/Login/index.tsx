@@ -1,9 +1,8 @@
-import { Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from 'react';
 import * as Yup from 'yup';
 import { useLoginMutation } from "../../api";
-import { InputField } from '../../components';
+import { FormButton, InputField } from '../../components';
 import { useAuthSuccess } from "../../hooks";
 import { ILoginAuthPayload } from "../../types";
 import { validatePassword } from "../../utils";
@@ -29,7 +28,7 @@ export default function Login() {
           <InputField name="username" placeholder="johndoe" label="Username" />
           <InputField name="email" placeholder="johndoe@gmail.com" label="Email" />
           <InputField name="password" placeholder="password" label="Password" type="password" />
-          <Button disabled={!isSubmitting && !isValid} type="submit" variant="contained" color="primary" className={`Login-button fs-20 fw-700 mt-10`}>Login</Button>
+          <FormButton disabled={!isSubmitting && !isValid} label={"Login"} />
         </Form>
       }
     </Formik>
