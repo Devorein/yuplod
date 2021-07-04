@@ -3,7 +3,9 @@ import { generateDynamicUpdateQuery, pool } from '../utils';
 
 export default class Post {
   static async getAll() {
-    const { rows: posts } = await pool.query<IPost>('SELECT * FROM posts');
+    const { rows: posts } = await pool.query<IPost>(
+      'SELECT p.*, p.id as post_id, u.username as username, u.first_name, u.last_name, u.email FROM posts as p LEFT JOIN users as u on u.id = p.user_id'
+    );
     return posts;
   }
 

@@ -1,5 +1,5 @@
 import { Typography } from "@material-ui/core";
-import { IPost } from "../../types";
+import { IPostWithUser } from "../../types";
 import { parseDate } from "../../utils";
 import "./style.scss";
 
@@ -11,8 +11,14 @@ function PostCardDate(props: { label: string, date: string, className?: string }
   </div>
 }
 
-export default function PostCard(prop: IPost) {
+export default function PostCard(prop: IPostWithUser) {
   return <div className="PostCard bg-base p-10 flex fd-c">
+    <div className="PostCard-data">
+      <div className="flex fd-c bg-light p-10 jc-sb">
+        <Typography className="fs-18 mb-5">{prop.first_name} {prop.last_name}</Typography>
+        <Typography className="fs-16 fw-700">{prop.username}</Typography>
+      </div>
+    </div>
     <div className="PostCard-image">
       <img src={prop.image_url} alt={`${prop.id}`} />
     </div>

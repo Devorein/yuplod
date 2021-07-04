@@ -72,3 +72,10 @@ export interface IApiError {
   messages: FieldError[];
   status: 'error';
 }
+
+export interface IPostWithUser extends IPost {
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+}
