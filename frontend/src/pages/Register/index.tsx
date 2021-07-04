@@ -13,7 +13,7 @@ export default function Register() {
         <Form className="Register flex fd-c">
           <InputField name="username" placeholder="John Doe" label="Username" />
           <InputField name="email" placeholder="johndoe@gmail.com" label="Email" />
-          <InputField name="password" placeholder="secret" label="Password" type="password" />
+          <InputField name="password" placeholder="password" label="Password" type="password" />
           <Button disabled={isSubmitting} type="submit" variant="contained" color="primary" className={`Register-button fs-20 fw-700 mt-10`}>Register</Button>
         </Form>
       }

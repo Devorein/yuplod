@@ -35,7 +35,6 @@ export interface IUser {
   updated_at: string;
   email: string;
   username: string;
-  password: string;
   first_name: string;
   last_name: string;
 }
@@ -58,4 +57,13 @@ export interface ILoginInput {
   password: string;
   username: string;
   email: string;
+}
+
+export interface IApiSuccess<T> {
+  data: T;
+  status: 'success';
+}
+export interface IApiError {
+  message: string;
+  status: 'error';
 }
