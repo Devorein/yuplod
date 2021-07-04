@@ -32,6 +32,7 @@ export async function updatePost(
 ) {
   const { data } = req.body,
     { id } = req.params;
+
   try {
     const { user } = req as any as IRequest;
     const post = await Post.update(id, data, user.id);

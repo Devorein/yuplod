@@ -3,7 +3,8 @@ import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import fileUpload from 'express-fileupload';
 import path from 'path';
-import uuid from 'uuid';
+import shortid from 'shortid';
+import { auth } from './middlewares';
 import router from './routes';
 import { createJsonErrorResponse, createJsonSuccessResponse } from './utils';
 
@@ -19,8 +20,7 @@ async function main() {
   app.use(express.static(path.resolve(__dirname, 'static')));
   app.use(fileUpload());
   app.use('/api/v1', router);
-
-  app.post('/api/v1/upload', (req: Request, res: Response) => {
+  app.post('/api/v1/upload', auth, (req: Request, res: Response) => {
     if (req.files === null) {
       createJsonErrorResponse(
         res,
@@ -29,23 +29,26 @@ async function main() {
       );
     }
     const file = req.files?.file as fileUpload.UploadedFile;
-
     if (file) {
-      file.mv(`${__dirname}/static/uploads/${file.name}`, (err) => {
-        if (err) {
-          createJsonErrorResponse(
-            res,
-            [{ field: 'file', message: err.message }],
-            500
-          );
-        } else {
-          const fileName = uuid.v4();
-          createJsonSuccessResponse(res, {
-            fileName,
-            filePath: `/uploads/${fileName}`
-          });
+      const extension = path.basename(file.name);
+      const generatedFileName = shortid();
+      file.mv(
+        `${__dirname}/static/uploads/${generatedFileName}.${extension}`,
+        async (err) => {
+          if (err) {
+            createJsonErrorResponse(
+              res,
+              [{ field: 'file', message: err.message }],
+              500
+            );
+          } else {
+            createJsonSuccessResponse(res, {
+              fileName: generatedFileName,
+              filePath: `http://localhost:4000/uploads/${generatedFileName}.${extension}`
+            });
+          }
         }
-      });
+      );
     } else {
       createJsonErrorResponse(
         res,
