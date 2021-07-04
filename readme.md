@@ -20,6 +20,23 @@ The frontend of yuplod is made using
 6. Yup (Validation library)
 7. Formik (Form library)
 
+## Breakdown
+
+1. The user has to first register to use the app as otherwise, they wont be able to
+1. Create any post
+1. Vote on any posts
+1. In the registration process the user has to provide their email, password, username, first_name and last_name.
+1. Both email and password must be unique so user cannot create multiple accounts with similar username or email
+1. After registration is done, the user can logout anytime.
+1. If the user has logged out but has registered then they just need to login back using either email/username or password.
+1. After logging in the user can create post. They can also vote on posts.
+
+In the initial load the jwt token stored in users localStorage is sent to the server to validate the user. If the token is verified to be of a users, then they are logged in, otherwise they have to login again.
+
+At the same time all the posts are fetched from the database, with the associated user and the total number of votes for that post. If the user is logged in they can upvote or downvote on the post.
+
+A user can create a post, by providing its caption and image which can be uploaded from users side. The post create process is a three step process. The post is created first without its file_url. After that if the post contains a file associated with it its sent to the server and stored in the local fs. After that the posts image_url field is populated with the name of the file.
+
 ## Current Status
 
 Currently yuplod is under heavy development and I plan on improving everything after the hackathon ends.
@@ -37,3 +54,4 @@ The user might face a few bugs here and there both on the client side and the se
 5. Add delete and update post support
 6. View other users profile
 7. Update logged in user's data feature
+8. Upvote and downvote button updates the cache
