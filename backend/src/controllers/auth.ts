@@ -101,7 +101,10 @@ export async function login(
       const { password } = user;
       const isMatch = await argon2.verify(password, data.password);
       if (isMatch) {
-        createJsonSuccessResponse(res, { token: createJwtToken(user.id) });
+        createJsonSuccessResponse(res, {
+          token: createJwtToken(user.id),
+          user
+        });
       } else {
         createJsonErrorResponse(
           res,

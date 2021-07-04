@@ -1,0 +1,11 @@
+.Login {
+  width: 500px;
+  margin: 25px auto;
+
+  &-button.MuiButton-contained {
+    padding: 10px 50px;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+}

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { RootContext } from '../../contexts';
 
 export default function Navbar() {
-  const { currentUser } = useContext(RootContext);
+  const { currentUser, setCurrentUser } = useContext(RootContext);
 
   return (
     <div className='flex-1'>
@@ -15,7 +15,10 @@ export default function Navbar() {
           {!currentUser ? <>
             <Button variant="contained" color="primary" className={`fs-16 mr-10`}><Link to="/register" className="color-primary td-n">Register</Link></Button>
             <Button variant="contained" color="primary" className={`fs-16`}><Link to="/login" className="color-primary td-n">Login</Link></Button>
-          </> : <Button variant="contained" color="primary" className={`fs-16`} onClick={() => localStorage.removeItem('yupload.token')}>Logout</Button>}
+          </> : <Button variant="contained" color="primary" className={`fs-16`} onClick={() => {
+            localStorage.removeItem('yupload.token')
+            setCurrentUser(null)
+          }}>Logout</Button>}
         </Toolbar>
       </AppBar>
     </div>
