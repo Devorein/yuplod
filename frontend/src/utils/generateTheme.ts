@@ -53,8 +53,6 @@ export function generateTheme() {
     }
   }
 
-  console.log(theme, text);
-
   const themeOptions: ExtendedThemeOptions = {
     theme,
     palette: {

@@ -4,7 +4,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useCurrentUser } from '../../api';
+import { JWT_TOKEN_LS_KEY } from '../../constants';
 import { RootContext } from '../../contexts';
+
+function NavbarButton(props: { to?: string, text: string, onClick?: (e: React.MouseEventHandler<HTMLButtonElement>) => void }) {
+  const { to, text, onClick } = props;
+  const buttonProps: any = {};
+  if (onClick)
+    buttonProps.onClick = onClick;
+  return <Button {...buttonProps} variant="contained" color="primary" className="fw-500 mr-10 fs-16 c-p">{to ? <Link to={to} className="color-primary td-n">{text}</Link> : text}</Button>
+}
 
 export default function Navbar() {
   const { currentUser, setCurrentUser } = useContext(RootContext);
@@ -14,18 +23,18 @@ export default function Navbar() {
   function render() {
     if (!isAuth) {
       return <>
-        <Button variant="contained" color="primary" className={`fs-16 mr-10`}><Link to="/register" className="color-primary td-n">Register</Link></Button>
-        <Button variant="contained" color="primary" className={`fs-16`}><Link to="/login" className="color-primary td-n">Login</Link></Button>
+        <NavbarButton to={`/register`} text={"Register"} />
+        <NavbarButton to={`/login`} text={"Login"} />
       </>
     } else {
       return <div className="flex ai-c">
-        <Button variant="contained" color="primary" className={`fs-16`} onClick={() => {
-          localStorage.removeItem('yupload.token')
+        <NavbarButton text={"Logout"} onClick={() => {
+          localStorage.removeItem(JWT_TOKEN_LS_KEY)
           setCurrentUser(null)
-        }}>Logout</Button>
-        <Button variant="contained" color="primary" className="fw-500 ml-10 fs-16 c-p"><Link to={`/profile/${currentUser!.id}`} className="color-primary td-n">Profile</Link></Button>
-        <Button variant="contained" color="primary" className="fw-500 ml-10 fs-16 c-p"><Link to={`/create`} className="color-primary td-n">Create</Link></Button>
-        <Button variant="contained" color="primary" className="fw-500 ml-10 fs-16 c-p"><Link to={`/`} className="color-primary td-n">Home</Link></Button>
+        }} />
+        <NavbarButton to={`/profile/${currentUser!.id}`} text={"Profile"} />
+        <NavbarButton to={`/create`} text={"Create"} />
+        <NavbarButton to={`/`} text={"Home"} />
       </div>
     }
   }
