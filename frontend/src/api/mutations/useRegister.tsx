@@ -10,7 +10,7 @@ interface UseRegisterMutationProps {
 
 export default function useRegisterMutation(props?: UseRegisterMutationProps) {
   const mutation = useMutation((registerData) => {
-    return axios.post(`http://localhost:4000/api/v1/auth/register`, registerData);
+    return axios.post(`http://localhost:4000/api/v1/auth/register`, { data: registerData });
   }, {
     onError: props?.onError,
     onSuccess: props?.onSuccess,
