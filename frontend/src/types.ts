@@ -9,12 +9,15 @@ export type Color = {
   opposite_light: string;
 };
 
+export type AllowedTheme = 'dark' | 'light';
 export interface ExtendedThemeOptions extends ThemeOptions {
   color: Color;
+  theme: AllowedTheme;
 }
 
 export interface ExtendedTheme extends Theme {
   color: Color;
+  theme: AllowedTheme;
 }
 
 export interface IPost {

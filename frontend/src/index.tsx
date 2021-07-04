@@ -9,7 +9,9 @@ import { generateTheme } from './utils';
 const Root = () => {
   const generatedTheme = generateTheme();
   return <ThemeProvider theme={generatedTheme}>
-    <App />
+    <App>
+      <div>Hello World</div>
+    </App>
   </ThemeProvider>
 }
 
