@@ -1,15 +1,18 @@
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { QueryClientProvider } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from './App';
 import './index.scss';
-import { generateTheme } from './utils';
+import { createClient, generateTheme } from './utils';
 
 const Root = () => {
   const generatedTheme = generateTheme();
   return <ThemeProvider theme={generatedTheme}>
-    <App />
+    <QueryClientProvider client={createClient()}>
+      <App />
+    </QueryClientProvider>
   </ThemeProvider>
 }
 
