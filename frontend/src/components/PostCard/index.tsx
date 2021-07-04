@@ -1,4 +1,5 @@
 import { Typography } from "@material-ui/core";
+import { green, red } from "@material-ui/core/colors";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
 import { IPostWithUser } from "../../types";
 import { parseDate } from "../../utils";
@@ -19,9 +20,10 @@ export default function PostCard(prop: IPostWithUser) {
         <Typography className="fs-18 mb-5">{prop.first_name} {prop.last_name}</Typography>
         <Typography className="fs-16 fw-700">{prop.username}</Typography>
       </div>
-      <div className="flex p-10">
-        <BiUpvote />
-        <BiDownvote />
+      <div className="flex p-10 ai-c bg-light jc-sb">
+        <BiUpvote size={20} />
+        <Typography className="fw-700 ml-10 mr-10" style={{ color: prop.votes < 0 ? red[500] : green[500] }}>{prop.votes}</Typography>
+        <BiDownvote size={20} />
       </div>
     </div>
     <div className="PostCard-image">

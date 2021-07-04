@@ -4,7 +4,7 @@ import { generateDynamicUpdateQuery, pool } from '../utils';
 export default class Post {
   static async getAll() {
     const { rows: posts } = await pool.query<IPost>(
-      'SELECT p.*, p.id as post_id, u.username as username, u.first_name, u.last_name, u.email FROM posts as p LEFT JOIN users as u on u.id = p.user_id'
+      'SELECT p.*, p.id as post_id, u.username, u.first_name, u.last_name, u.email, (SELECT SUM(v.amount) as votes from votes as v where v.post_id = p.id) FROM posts as p LEFT JOIN users as u on u.id = p.user_id;'
     );
     return posts;
   }
