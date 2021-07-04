@@ -40,3 +40,9 @@ export interface ILoginInput {
 }
 
 export type IRequest = Request & { user: IUser };
+
+export interface IVote {
+  amount: number;
+  user_id: number
+  post_id: number
+}
