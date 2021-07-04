@@ -62,6 +62,9 @@ export function generateTheme() {
       },
       primary: {
         main: red[500]
+      },
+      background: {
+        default: color.base
       }
     },
     typography: {
@@ -70,6 +73,19 @@ export function generateTheme() {
     },
     color,
     overrides: {
+      MuiToolbar: {
+        regular: {
+          minHeight: 'fit-content'
+        }
+      },
+      MuiButton: {
+        root: {
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 5,
+          paddingBottom: 5
+        }
+      },
       MuiTab: {
         wrapper: {
           fontWeight: 'bold',
@@ -85,15 +101,6 @@ export function generateTheme() {
             height: 30,
             width: 30
           }
-        }
-      },
-      MuiButton: {
-        outlined: {
-          borderRadius: 10
-        },
-        root: {
-          paddingTop: 15,
-          paddingBottom: 15
         }
       },
       MuiOutlinedInput: {

@@ -30,6 +30,12 @@ export function generateDynamicStyleClasses() {
       },
       '& .bg-opposite_light': {
         background: theme.color.opposite_light
+      },
+      '& .color-primary': {
+        color: theme.palette.text.primary
+      },
+      '& .color-secondary': {
+        color: theme.palette.text.secondary
       }
     }
   }))();
