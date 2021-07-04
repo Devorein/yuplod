@@ -58,7 +58,7 @@ export interface IPostWithUser extends IPost {
   username: string;
   first_name: string;
   last_name: string;
-  votes: number;
+  votes: string;
 }
 
 export interface IRegisterAuthPayload {

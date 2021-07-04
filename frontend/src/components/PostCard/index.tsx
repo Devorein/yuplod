@@ -1,7 +1,8 @@
 import { Typography } from "@material-ui/core";
 import { green, red } from "@material-ui/core/colors";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
+import { useCreateVoteMutation } from "../../api";
 import { RootContext } from "../../contexts";
 import { IPostWithUser } from "../../types";
 import { parseDate } from "../../utils";
@@ -16,6 +17,8 @@ function PostCardDate(props: { label: string, date: string, className?: string }
 }
 
 export default function PostCard(prop: IPostWithUser) {
+  const [voteAmount, setVoteAmount] = useState(0);
+  const createVoteMutation = useCreateVoteMutation();
   const { currentUser } = useContext(RootContext);
   return <div className="PostCard bg-base p-10 flex fd-c">
     <div className="PostCard-data flex jc-sb">
@@ -24,13 +27,25 @@ export default function PostCard(prop: IPostWithUser) {
         <Typography className="fs-16 fw-700">{prop.username}</Typography>
       </div>
       <div className="flex p-10 ai-c bg-light jc-sb">
-        <BiUpvote size={20} onClick={() => {
+        <BiUpvote className="c-p" fill={voteAmount === 1 ? green[500] : 'white'} size={20} onClick={() => {
           if (currentUser) {
-
+            createVoteMutation.mutate({
+              amount: 1,
+              post_id: prop.id
+            })
+            setVoteAmount(1)
           }
         }} />
-        <Typography className="fw-700 ml-10 mr-10" style={{ color: prop.votes < 0 ? red[500] : green[500] }}>{prop.votes}</Typography>
-        <BiDownvote size={20} />
+        <Typography className="fw-700 ml-10 mr-10" style={{ color: (parseInt(prop.votes) + voteAmount) < 0 ? red[500] : green[500] }}>{parseInt(prop.votes) + voteAmount}</Typography>
+        <BiDownvote className="c-p" fill={voteAmount === -1 ? red[500] : 'white'} size={20} onClick={() => {
+          if (currentUser) {
+            createVoteMutation.mutate({
+              amount: -1,
+              post_id: prop.id
+            })
+            setVoteAmount(-1)
+          }
+        }} />
       </div>
     </div>
     <div className="PostCard-image">
