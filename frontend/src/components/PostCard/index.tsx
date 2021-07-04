@@ -20,6 +20,7 @@ export default function PostCard(prop: IPostWithUser) {
   const [voteAmount, setVoteAmount] = useState(0);
   const createVoteMutation = useCreateVoteMutation();
   const { currentUser } = useContext(RootContext);
+  const votes = (parseInt(prop.votes ?? 0) + voteAmount)
   return <div className="PostCard bg-base p-10 flex fd-c">
     <div className="PostCard-data flex jc-sb">
       <div className="flex fd-c bg-light p-10">
@@ -33,17 +34,17 @@ export default function PostCard(prop: IPostWithUser) {
               amount: 1,
               post_id: prop.id
             })
-            setVoteAmount(1)
+            setVoteAmount(voteAmount === 1 ? 0 : 1)
           }
         }} />
-        <Typography className="fw-700 ml-10 mr-10" style={{ color: (parseInt(prop.votes) + voteAmount) < 0 ? red[500] : green[500] }}>{parseInt(prop.votes) + voteAmount}</Typography>
+        <Typography className="fw-700 ml-10 mr-10" style={{ color: votes < 0 ? red[500] : green[500] }}>{votes}</Typography>
         <BiDownvote className="c-p" fill={voteAmount === -1 ? red[500] : 'white'} size={20} onClick={() => {
           if (currentUser) {
             createVoteMutation.mutate({
               amount: -1,
               post_id: prop.id
             })
-            setVoteAmount(-1)
+            setVoteAmount(voteAmount === -1 ? 0 : -1)
           }
         }} />
       </div>

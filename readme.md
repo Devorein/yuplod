@@ -2,6 +2,17 @@
 
 A fullstack app to upload photos and post your captions.
 
+## Steps
+
+In order to start the backend you'll need to go to the `backend` folder and run the following scripts
+
+1. Please use the sql file to generate the tables and seeder data beforehand
+2. npm run `build`
+3. npm run `start`
+4. After a while you'll see a `dist` folder, add `static/uploads` to the dist folder
+
+For the frontend just go the the `frontend` folder and run the script `npm run start`
+
 ## Details
 
 ### Backend
@@ -55,3 +66,4 @@ The user might face a few bugs here and there both on the client side and the se
 6. View other users profile
 7. Update logged in user's data feature
 8. Upvote and downvote button updates the cache
+9. Filtering and sorting on the posts
