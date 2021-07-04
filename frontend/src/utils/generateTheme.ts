@@ -15,8 +15,8 @@ export function generateTheme() {
     primary: string;
     secondary: string;
   } = {
-    primary: grey[900],
-    secondary: grey[800]
+    primary: grey[100],
+    secondary: grey[200]
   };
 
   let paletteType: AllowedTheme = 'dark';
