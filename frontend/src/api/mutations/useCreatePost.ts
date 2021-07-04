@@ -14,7 +14,9 @@ export function useCreatePostMutation() {
     AxiosResponse<IApiError>,
     ICreatePostPayload
   >((createPostData) => {
-    return axios.post(`${API_ENDPOINT}/post`, { data: createPostData });
+    return axios.post(`${API_ENDPOINT}/post`, {
+      data: { ...createPostData, image_url: '' }
+    });
   });
 
   return mutation;

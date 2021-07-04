@@ -15,10 +15,6 @@ export default function Create() {
   const mutation = useCreatePostMutation();
   return (
     <Formik validationSchema={createPostInputSchema} validateOnMount initialValues={{ caption: '' } as ICreatePostPayload} onSubmit={(values, { setErrors, setValues }) => mutation.mutate(values, {
-      onError(res) {
-        console.log(JSON.stringify(res, null, 2))
-        // setErrors(toErrorMap(data.messages))
-      },
       onSuccess() {
         setValues({ caption: '' })
       }
