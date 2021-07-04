@@ -3,6 +3,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { useCreatePostMutation } from "../../api";
 import { FormButton, InputField } from '../../components';
+import { useRedirect } from "../../hooks";
 import { ICreatePostPayload } from "../../types";
 import "./style.scss";
 
@@ -13,8 +14,9 @@ const createPostInputSchema = Yup.object().shape({
 
 export default function Create() {
   const mutation = useCreatePostMutation();
+  const currentUser = useRedirect(true);
   return (
-    <Formik validationSchema={createPostInputSchema} validateOnMount initialValues={{ caption: '' } as ICreatePostPayload} onSubmit={(values, { setErrors, setValues }) => mutation.mutate(values, {
+    currentUser ? <Formik validationSchema={createPostInputSchema} validateOnMount initialValues={{ caption: '' } as ICreatePostPayload} onSubmit={(values, { setErrors, setValues }) => mutation.mutate(values, {
       onSuccess() {
         setValues({ caption: '' })
       }
@@ -25,6 +27,6 @@ export default function Create() {
           <FormButton disabled={!isSubmitting && !isValid} label={"Create"} />
         </Form>
       }
-    </Formik>
+    </Formik> : null
   )
 }

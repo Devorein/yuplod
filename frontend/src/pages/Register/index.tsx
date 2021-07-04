@@ -3,7 +3,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { useRegisterMutation } from "../../api";
 import { FormButton, InputField } from '../../components';
-import { useAuthSuccess } from "../../hooks";
+import { useAuthSuccess, useRedirect } from "../../hooks";
 import { IRegisterAuthPayload } from "../../types";
 import { validatePassword } from "../../utils";
 import "./style.scss";
@@ -28,8 +28,9 @@ const registerInputSchema = Yup.object().shape({
 export default function Register() {
   const mutation = useRegisterMutation();
   const onAuthSuccess = useAuthSuccess();
+  const currentUser = useRedirect(false);
   return (
-    <Formik validationSchema={registerInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IRegisterAuthPayload} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
+    !currentUser ? <Formik validationSchema={registerInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IRegisterAuthPayload} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
       onError(res) {
         console.log(JSON.stringify(res, null, 2))
         // setErrors(toErrorMap(data.messages))
@@ -52,6 +53,6 @@ export default function Register() {
           <FormButton disabled={!isSubmitting && !isValid} label={"Register"} />
         </Form>
       }
-    </Formik>
+    </Formik> : null
   )
 }

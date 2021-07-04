@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
-import { API_ENDPOINT } from '../../constants';
+import { API_ENDPOINT, JWT_TOKEN_LS_KEY } from '../../constants';
 import {
   IApiError,
   IApiSuccess,
@@ -14,9 +14,18 @@ export function useCreatePostMutation() {
     AxiosResponse<IApiError>,
     ICreatePostPayload
   >((createPostData) => {
-    return axios.post(`${API_ENDPOINT}/post`, {
-      data: { ...createPostData, image_url: '' }
-    });
+    const token = localStorage.getItem(JWT_TOKEN_LS_KEY);
+    return axios.post(
+      `${API_ENDPOINT}/posts`,
+      {
+        data: { ...createPostData, image_url: '' }
+      },
+      {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      }
+    );
   });
 
   return mutation;

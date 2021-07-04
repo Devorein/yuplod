@@ -3,7 +3,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { useLoginMutation } from "../../api";
 import { FormButton, InputField } from '../../components';
-import { useAuthSuccess } from "../../hooks";
+import { useAuthSuccess, useRedirect } from "../../hooks";
 import { ILoginAuthPayload } from "../../types";
 import { validatePassword } from "../../utils";
 import "./style.scss";
@@ -15,8 +15,9 @@ const loginInputSchema = Yup.object().shape({
 export default function Login() {
   const mutation = useLoginMutation();
   const onAuthSuccess = useAuthSuccess();
+  const currentUser = useRedirect(false);
   return (
-    <Formik validationSchema={loginInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '' } as ILoginAuthPayload} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
+    !currentUser ? <Formik validationSchema={loginInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '' } as ILoginAuthPayload} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
       onSuccess({ data }) {
         if (data.status === 'success') {
           onAuthSuccess(data.data)
@@ -31,6 +32,6 @@ export default function Login() {
           <FormButton disabled={!isSubmitting && !isValid} label={"Login"} />
         </Form>
       }
-    </Formik>
+    </Formik> : null
   )
 }
