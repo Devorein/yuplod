@@ -75,3 +75,8 @@ export interface IRegisterAuthResponse {
 
 export interface ILoginAuthResponse extends IRegisterAuthResponse {}
 export interface ILoginAuthPayload extends IRegisterAuthPayload {}
+export interface ICreatePostPayload {
+  image_url: string;
+  caption: string;
+}
+export interface ICreatePostResponse extends IPost {}
