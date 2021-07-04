@@ -2,10 +2,10 @@ import { Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from 'react';
 import * as Yup from 'yup';
-import useRegisterMutation from "../../api/mutations/useRegister";
+import { useRegisterMutation } from "../../api";
 import { InputField } from '../../components';
 import { useAuthSuccess } from "../../hooks";
-import { IUserCreate } from "../../types";
+import { IRegisterAuthPayload } from "../../types";
 import { validatePassword } from "../../utils";
 import "./style.scss";
 
@@ -30,7 +30,7 @@ export default function Register() {
   const mutation = useRegisterMutation();
   const onAuthSuccess = useAuthSuccess();
   return (
-    <Formik validationSchema={registerInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IUserCreate} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
+    <Formik validationSchema={registerInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IRegisterAuthPayload} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
       onError(res) {
         console.log(JSON.stringify(res, null, 2))
         // setErrors(toErrorMap(data.messages))

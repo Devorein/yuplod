@@ -2,10 +2,10 @@ import { Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from 'react';
 import * as Yup from 'yup';
-import useLoginMutation from "../../api/mutations/useLogin";
+import { useLoginMutation } from "../../api";
 import { InputField } from '../../components';
 import { useAuthSuccess } from "../../hooks";
-import { ILoginInput } from "../../types";
+import { ILoginAuthPayload } from "../../types";
 import { validatePassword } from "../../utils";
 import "./style.scss";
 
@@ -17,7 +17,7 @@ export default function Login() {
   const mutation = useLoginMutation();
   const onAuthSuccess = useAuthSuccess();
   return (
-    <Formik validationSchema={loginInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '' } as ILoginInput} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
+    <Formik validationSchema={loginInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '' } as ILoginAuthPayload} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
       onSuccess({ data }) {
         if (data.status === 'success') {
           onAuthSuccess(data.data)

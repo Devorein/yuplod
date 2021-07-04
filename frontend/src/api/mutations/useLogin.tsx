@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { useMutation } from "react-query";
-import { IApiError, IApiSuccess, ILoginInput, IUser } from "../../types";
+import { IApiError, IApiSuccess, ILoginAuthPayload, ILoginAuthResponse } from "../../types";
 
-export default function useRegisterMutation() {
-  const mutation = useMutation<AxiosResponse<IApiSuccess<{ user: IUser, token: string }>>, AxiosResponse<IApiError>, ILoginInput>((loginData) => {
+export function useLoginMutation() {
+  const mutation = useMutation<AxiosResponse<IApiSuccess<ILoginAuthResponse>>, AxiosResponse<IApiError>, ILoginAuthPayload>((loginData) => {
     return axios.post(`http://localhost:4000/api/v1/auth/login`, { data: loginData });
   });
 
