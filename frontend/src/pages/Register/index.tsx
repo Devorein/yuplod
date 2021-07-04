@@ -1,10 +1,11 @@
 import { Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from "react-router-dom";
 import * as Yup from 'yup';
 import useRegisterMutation from "../../api/mutations/useRegister";
 import { InputField } from '../../components';
+import { RootContext } from "../../contexts";
 import { IUserCreate } from "../../types";
 import { validatePassword } from "../../utils";
 import "./style.scss";
@@ -29,6 +30,7 @@ const registerInputSchema = Yup.object().shape({
 export default function Register() {
   const history = useHistory();
   const mutation = useRegisterMutation();
+  const { setCurrentUser } = useContext(RootContext);
   return (
     <Formik validationSchema={registerInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IUserCreate} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
       onError(res) {
@@ -37,7 +39,8 @@ export default function Register() {
       },
       onSuccess({ data }) {
         if (data.status === 'success') {
-          const { token } = data.data;
+          const { token, user } = data.data;
+          setCurrentUser(user)
           localStorage.setItem('yuplod.token', token)
           history.push("/")
         }
