@@ -1,13 +1,17 @@
 import { Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from 'react';
+import useRegisterMutation from "../../api/mutations/useRegister";
 import { InputField } from '../../components';
+import { IUserCreate } from "../../types";
 import "./style.scss";
 
 export default function Register() {
+  const mutation = useRegisterMutation();
   return (
-    <Formik initialValues={{ username: '', password: '', email: '' }} onSubmit={async (values, { setErrors }) => {
-      console.log(123)
+    <Formik initialValues={{ username: '', password: '', email: '' } as IUserCreate} onSubmit={async (values, { setErrors }) => {
+      const response = mutation.mutate(values);
+      console.log(response)
     }}>
       {({ isSubmitting }) =>
         <Form className="Register flex fd-c">

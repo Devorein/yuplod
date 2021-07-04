@@ -8,14 +8,14 @@ interface UseRegisterMutationProps {
   onSettled?: UseMutationOptions<IApiSuccess<IUser>, IApiError, IUserCreate>["onSettled"],
 }
 
-export default function useRegisterMutation(props: UseRegisterMutationProps) {
-  const mutation = useMutation(async (registerData) => {
-    return await axios.post(`http://localhost:4000/api/v1/auth/register`, registerData);
+export default function useRegisterMutation(props?: UseRegisterMutationProps) {
+  const mutation = useMutation((registerData) => {
+    return axios.post(`http://localhost:4000/api/v1/auth/register`, registerData);
   }, {
-    onError: props.onError,
-    onSuccess: props.onSuccess,
-    onSettled: props.onSettled,
+    onError: props?.onError,
+    onSuccess: props?.onSuccess,
+    onSettled: props?.onSettled,
   });
 
-  return mutation
+  return mutation;
 }
