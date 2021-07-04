@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import * as Yup from 'yup';
 import useRegisterMutation from "../../api/mutations/useRegister";
 import { InputField } from '../../components';
@@ -8,7 +9,7 @@ import { IUserCreate } from "../../types";
 import { validatePassword } from "../../utils";
 import "./style.scss";
 
-const registerSchema = Yup.object().shape({
+const registerInputSchema = Yup.object().shape({
   first_name: Yup.string()
     .min(2, 'Too Short!')
     .max(25, 'Too Long!')
@@ -26,12 +27,21 @@ const registerSchema = Yup.object().shape({
 });
 
 export default function Register() {
+  const history = useHistory();
   const mutation = useRegisterMutation();
   return (
-    <Formik validationSchema={registerSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IUserCreate} onSubmit={async (values, { setErrors }) => {
-      const response = mutation.mutate(values);
-      console.log(response)
-    }}>
+    <Formik validationSchema={registerInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IUserCreate} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
+      onError(error) {
+        console.log(error)
+      },
+      onSuccess({ data }) {
+        if (data.status === 'success') {
+          const { token } = data.data;
+          localStorage.setItem('yuplod.token', token)
+          history.push("/")
+        }
+      }
+    })}>
       {({ isSubmitting, isValid }) =>
         <Form className="Register flex fd-c">
           <div className="flex">

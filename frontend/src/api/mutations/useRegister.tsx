@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useMutation, UseMutationOptions } from "react-query";
 import { IApiError, IApiSuccess, IUser, IUserCreate } from "../../types";
 
 interface UseRegisterMutationProps {
-  onError?: UseMutationOptions<IApiSuccess<IUser>, IApiError, IUserCreate>["onError"],
-  onSuccess?: UseMutationOptions<IApiSuccess<IUser>, IApiError, IUserCreate>["onSuccess"],
-  onSettled?: UseMutationOptions<IApiSuccess<IUser>, IApiError, IUserCreate>["onSettled"],
+  onError?: UseMutationOptions<AxiosResponse<IApiSuccess<{ user: IUser, token: string }>>, AxiosResponse<IApiError>, IUserCreate>["onError"],
+  onSuccess?: UseMutationOptions<AxiosResponse<IApiSuccess<{ user: IUser, token: string }>>, AxiosResponse<IApiError>, IUserCreate>["onSuccess"],
+  onSettled?: UseMutationOptions<AxiosResponse<IApiSuccess<{ user: IUser, token: string }>>, AxiosResponse<IApiError>, IUserCreate>["onSettled"],
 }
 
 export default function useRegisterMutation(props?: UseRegisterMutationProps) {
