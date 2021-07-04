@@ -4,19 +4,19 @@ import { AllowedTheme, Color, ExtendedThemeOptions } from '../types';
 
 export function generateTheme() {
   const color: Color = {
-    base: grey[200],
-    dark: grey[300],
-    light: lighten(grey[200], 0.5),
-    opposite_base: darken(grey[800], 0.25),
-    opposite_dark: grey[900],
-    opposite_light: grey[800]
+    base: '',
+    dark: '',
+    light: '',
+    opposite_base: '',
+    opposite_dark: '',
+    opposite_light: ''
   };
   const text: {
     primary: string;
     secondary: string;
   } = {
-    primary: grey[100],
-    secondary: grey[200]
+    primary: '',
+    secondary: ''
   };
 
   let paletteType: AllowedTheme = 'dark';
@@ -33,8 +33,8 @@ export function generateTheme() {
       color.opposite_light = lighten(grey[200], 0.5);
       color.opposite_dark = grey[300];
       color.opposite_base = grey[200];
-      text.primary = grey[100];
-      text.secondary = grey[200];
+      text.primary = grey[200];
+      text.secondary = grey[300];
       paletteType = 'dark';
       break;
     }
@@ -47,10 +47,13 @@ export function generateTheme() {
       color.opposite_base = darken(grey[800], 0.25);
       text.primary = grey[900];
       text.secondary = grey[800];
+
       paletteType = 'light';
       break;
     }
   }
+
+  console.log(theme, text);
 
   const themeOptions: ExtendedThemeOptions = {
     theme,
@@ -116,6 +119,11 @@ export function generateTheme() {
       MuiFormControl: {
         root: {
           margin: 5
+        }
+      },
+      MuiTypography: {
+        root: {
+          color: text.primary
         }
       },
       MuiFormLabel: {
