@@ -1,4 +1,4 @@
-import { grey } from '@material-ui/core/colors';
+import { grey, red } from '@material-ui/core/colors';
 import { createMuiTheme, darken, lighten } from '@material-ui/core/styles';
 import { Color, ExtendedThemeOptions } from '../types';
 
@@ -26,7 +26,7 @@ export function generateTheme() {
   color.opposite_dark = grey[900];
   color.opposite_base = darken(grey[800], 0.25);
   text.primary = grey[900];
-  text.secondary = grey[700];
+  text.secondary = grey[800];
   const paletteType = 'light';
 
   const themeOptions: ExtendedThemeOptions = {
@@ -36,24 +36,13 @@ export function generateTheme() {
         primary: text.primary,
         secondary: text.secondary
       },
-      background: {
-        default: color.base
-      },
       primary: {
-        main: grey[900]
+        main: red[500]
       }
     },
     typography: {
       fontFamily: 'Poppins',
-      fontSize: 14,
-      h5: {
-        fontWeight: 'bold',
-        fontSize: '1.25em'
-      },
-      h6: {
-        fontWeight: 'bold',
-        fontSize: '1.15em'
-      }
+      fontSize: 14
     },
     color,
     overrides: {
