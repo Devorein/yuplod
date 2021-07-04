@@ -25,6 +25,7 @@ export default function Navbar() {
         }}>Logout</Button>
         <Button variant="contained" color="primary" className="fw-500 ml-10 fs-16 c-p"><Link to={`/profile/${currentUser!.id}`} className="color-primary td-n">Profile</Link></Button>
         <Button variant="contained" color="primary" className="fw-500 ml-10 fs-16 c-p"><Link to={`/create`} className="color-primary td-n">Create</Link></Button>
+        <Button variant="contained" color="primary" className="fw-500 ml-10 fs-16 c-p"><Link to={`/`} className="color-primary td-n">Home</Link></Button>
       </div>
     }
   }

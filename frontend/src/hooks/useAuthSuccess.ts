@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { JWT_TOKEN_LS_KEY } from '../constants';
 import { RootContext } from '../contexts';
 import { IUser } from '../types';
 
@@ -10,7 +11,7 @@ export function useAuthSuccess() {
   return function (data: { user: IUser; token: string }) {
     const { token, user } = data;
     setCurrentUser(user);
-    localStorage.setItem('yuplod.token', token);
+    localStorage.setItem(JWT_TOKEN_LS_KEY, token);
     history.push('/');
   };
 }
