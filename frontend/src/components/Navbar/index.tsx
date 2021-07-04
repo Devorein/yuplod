@@ -15,7 +15,7 @@ export default function Navbar() {
           {!currentUser ? <>
             <Button variant="contained" color="primary" className={`fs-16 mr-10`}><Link to="/register" className="color-primary td-n">Register</Link></Button>
             <Button variant="contained" color="primary" className={`fs-16`}><Link to="/login" className="color-primary td-n">Login</Link></Button>
-          </> : null}
+          </> : <Button variant="contained" color="primary" className={`fs-16`} onClick={() => localStorage.removeItem('yupload.token')}>Logout</Button>}
         </Toolbar>
       </AppBar>
     </div>
