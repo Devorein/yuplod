@@ -74,8 +74,19 @@ export interface IRegisterAuthResponse {
   token: string;
 }
 
+export interface IVote {
+  amount: number;
+  post_id: number;
+  user_id: number;
+}
+
 export interface ILoginAuthResponse extends IRegisterAuthResponse {}
 export interface ILoginAuthPayload extends IRegisterAuthPayload {}
+export interface ICreateVoteResponse extends IVote {}
+export interface ICreateVotePayload {
+  post_id: number;
+  amount: number;
+}
 export interface ICreatePostPayload {
   caption: string;
 }
