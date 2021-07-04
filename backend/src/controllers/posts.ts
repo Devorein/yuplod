@@ -38,7 +38,7 @@ export async function updatePost(
     if (!post) {
       createJsonErrorResponse(
         res,
-        ['Unauthorized to perform this action'],
+        [{ field: null, message: 'Unauthorized to perform this action' }],
         401
       );
     } else {
@@ -57,7 +57,7 @@ export async function deletePost(req: Request, res: Response) {
     if (!post) {
       createJsonErrorResponse(
         res,
-        ['Unauthorized to perform this action'],
+        [{ field: null, message: 'Unauthorized to perform this action' }],
         401
       );
     } else {

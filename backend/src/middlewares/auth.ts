@@ -11,7 +11,11 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
   )
     token = req.headers.authorization.split(' ')[1];
   if (!token)
-    createJsonErrorResponse(res, ['Not authorized to access this route'], 401);
+    createJsonErrorResponse(
+      res,
+      [{ field: 'token', message: 'Token not provided' }],
+      401
+    );
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as any;
@@ -19,6 +23,10 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
     (req as any).user = users[0];
     next();
   } catch (err) {
-    createJsonErrorResponse(res, ['Not authorized to access this route'], 401);
+    createJsonErrorResponse(
+      res,
+      [{ field: 'token', message: 'Invalid token' }],
+      401
+    );
   }
 }

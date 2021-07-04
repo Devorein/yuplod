@@ -10,8 +10,8 @@ CREATE TABLE users (
   updated_at TIMESTAMP
 );
 
-ALTER TABLE users ADD CONSTRAINT username UNIQUE (email);
-ALTER TABLE users ADD CONSTRAINT email UNIQUE (username);
+ALTER TABLE users ADD CONSTRAINT email UNIQUE (email);
+ALTER TABLE users ADD CONSTRAINT username UNIQUE (username);
 
 INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ('Suzette', 'Filliskirk', 'sfilliskirk0@gravatar.com', 'mhsvMAw', 'sfilliskirk0', '2021-05-22T21:38:22Z', '2021-06-16T04:16:42Z');
 INSERT INTO users (first_name, last_name, email, password, username, created_at, updated_at) VALUES ('Ugo', 'Shellum', 'ushellum1@sitemeter.com', 'pWrW01Y6', 'ushellum1', '2021-05-23T11:40:31Z', '2021-06-07T12:15:33Z');

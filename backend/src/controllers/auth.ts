@@ -37,14 +37,31 @@ export async function register(
     'username'
   ]);
   if (errorMessages.length !== 0) {
-    createJsonErrorResponse(res, errorMessages);
+    createJsonErrorResponse(res, errorMessages, 400);
   } else {
     try {
       const user = await User.create(data);
       const token = createJwtToken(user.id);
       createJsonSuccessResponse(res, { user, token });
     } catch (err) {
-      createJsonErrorResponse(res, [err.message]);
+      if (err.code === '23505') {
+        createJsonErrorResponse(
+          res,
+          [
+            {
+              field: err.constraint,
+              message: `Duplicate ${err.constraint} found!`
+            }
+          ],
+          400
+        );
+      } else {
+        createJsonErrorResponse(
+          res,
+          [{ field: null, message: `Duplicate ${err.constraint} found!` }],
+          400
+        );
+      }
     }
   }
 }
@@ -55,28 +72,50 @@ export async function login(
 ) {
   try {
     const { data } = req.body;
-    if (!data.username && !data.email) {
-      createJsonErrorResponse(res, ['Provide username or email']);
+    if (!data.email) {
+      createJsonErrorResponse(
+        res,
+        [{ field: 'email', message: 'Provide email' }],
+        400
+      );
+    } else if (!data.username) {
+      createJsonErrorResponse(
+        res,
+        [{ field: 'username', message: 'Provide username' }],
+        400
+      );
     }
     let user: IUser | null = null;
     if (data.email) {
       user = (await User.getByEmailWithPassword(data.email))[0];
+      if (!user) {
+        createJsonErrorResponse(res, [
+          { field: 'email', message: `No user found with that email` }
+        ]);
+      }
     } else if (data.username) {
       user = (await User.getByUsernameWithPassword(data.username))[0];
+      if (!user) {
+        createJsonErrorResponse(res, [
+          { field: 'username', message: `No user found with that username` }
+        ]);
+      }
     }
 
-    if (!user) {
-      createJsonErrorResponse(res, ["User doesn't exist"]);
-    } else {
+    if (user) {
       const { password } = user;
       const isMatch = await argon2.verify(password, data.password);
       if (isMatch) {
         createJsonSuccessResponse(res, { token: createJwtToken(user.id) });
       } else {
-        createJsonErrorResponse(res, ['Wrong password']);
+        createJsonErrorResponse(
+          res,
+          [{ field: 'password', message: 'Wrong password' }],
+          401
+        );
       }
     }
   } catch (err) {
-    createJsonErrorResponse(res, [err.message]);
+    createJsonErrorResponse(res, [err.message], 400);
   }
 }

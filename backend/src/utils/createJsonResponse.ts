@@ -6,7 +6,7 @@ export function createJsonSuccessResponse<T>(res: Response, data: T) {
 
 export function createJsonErrorResponse(
   res: Response,
-  errors: string[],
+  errors: { field: string | null; message: string }[],
   statusCode?: number
 ) {
   statusCode = statusCode ?? 404;
