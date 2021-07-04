@@ -1,4 +1,4 @@
-import { grey, red } from '@material-ui/core/colors';
+import { blue, grey } from '@material-ui/core/colors';
 import { createMuiTheme, darken, lighten } from '@material-ui/core/styles';
 import { AllowedTheme, Color, ExtendedThemeOptions } from '../types';
 
@@ -61,7 +61,7 @@ export function generateTheme() {
         secondary: text.secondary
       },
       primary: {
-        main: red[500]
+        main: blue[700]
       },
       background: {
         default: color.base
@@ -73,11 +73,6 @@ export function generateTheme() {
     },
     color,
     overrides: {
-      MuiToolbar: {
-        regular: {
-          minHeight: 'fit-content'
-        }
-      },
       MuiButton: {
         root: {
           paddingLeft: 10,
@@ -105,12 +100,7 @@ export function generateTheme() {
       },
       MuiOutlinedInput: {
         root: {
-          borderRadius: 10
-        },
-        input: {
-          paddingLeft: 25,
-          paddingTop: 15,
-          paddingBottom: 15
+          borderRadius: 5
         }
       },
       MuiFormControlLabel: {
@@ -121,6 +111,19 @@ export function generateTheme() {
         },
         label: {
           flex: 1
+        }
+      },
+      MuiFormControl: {
+        root: {
+          margin: 5
+        }
+      },
+      MuiFormLabel: {
+        root: {
+          fontSize: 16,
+          fontWeight: 500,
+          padding: 5,
+          display: 'flex'
         }
       },
       MuiInputBase: {

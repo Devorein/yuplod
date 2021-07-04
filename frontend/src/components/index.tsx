@@ -5,4 +5,3 @@ export {
   InputField,
   Navbar
 }
-
