@@ -44,6 +44,7 @@ export async function register(
       const token = createJwtToken(user.id);
       createJsonSuccessResponse(res, { user, token });
     } catch (err) {
+      console.log(err);
       if (err.code === '23505') {
         createJsonErrorResponse(
           res,
@@ -58,7 +59,7 @@ export async function register(
       } else {
         createJsonErrorResponse(
           res,
-          [{ field: null, message: `Duplicate ${err.constraint} found!` }],
+          [{ field: null, message: err.message }],
           400
         );
       }
@@ -72,16 +73,10 @@ export async function login(
 ) {
   try {
     const { data } = req.body;
-    if (!data.email) {
+    if (!data.email && !data.username) {
       createJsonErrorResponse(
         res,
-        [{ field: 'email', message: 'Provide email' }],
-        400
-      );
-    } else if (!data.username) {
-      createJsonErrorResponse(
-        res,
-        [{ field: 'username', message: 'Provide username' }],
+        [{ field: null, message: 'Provide email or username' }],
         400
       );
     }

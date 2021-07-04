@@ -63,7 +63,12 @@ export interface IApiSuccess<T> {
   data: T;
   status: 'success';
 }
-export interface IApiError {
+
+export interface FieldError {
+  field: string | null;
   message: string;
+}
+export interface IApiError {
+  messages: FieldError[];
   status: 'error';
 }

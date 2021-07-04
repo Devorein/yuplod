@@ -5,7 +5,7 @@ CREATE TABLE users (
   last_name VARCHAR(25),
   username VARCHAR(25),
   email VARCHAR(50),
-  password VARCHAR(50),
+  password VARCHAR(255),
   created_at TIMESTAMP,
   updated_at TIMESTAMP
 );

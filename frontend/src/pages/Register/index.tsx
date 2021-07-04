@@ -31,8 +31,9 @@ export default function Register() {
   const mutation = useRegisterMutation();
   return (
     <Formik validationSchema={registerInputSchema} validateOnMount initialValues={{ username: '', password: '', email: '', first_name: '', last_name: '' } as IUserCreate} onSubmit={(values, { setErrors }) => mutation.mutate(values, {
-      onError(error) {
-        console.log(error)
+      onError(res) {
+        console.log(JSON.stringify(res, null, 2))
+        // setErrors(toErrorMap(data.messages))
       },
       onSuccess({ data }) {
         if (data.status === 'success') {
@@ -51,7 +52,7 @@ export default function Register() {
           <InputField name="username" placeholder="johndoe" label="Username" />
           <InputField name="email" placeholder="johndoe@gmail.com" label="Email" />
           <InputField name="password" placeholder="password" label="Password" type="password" />
-          <Button disabled={!isValid} type="submit" variant="contained" color="primary" className={`Register-button fs-20 fw-700 mt-10`}>Register</Button>
+          <Button disabled={!isSubmitting && !isValid} type="submit" variant="contained" color="primary" className={`Register-button fs-20 fw-700 mt-10`}>Register</Button>
         </Form>
       }
     </Formik>
