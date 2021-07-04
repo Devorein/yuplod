@@ -1,8 +1,5 @@
-import Post from "./Post"
-import User from "./User"
+import Post from './Post';
+import User from './User';
+import Vote from './Vote';
 
-export {
-  Post,
-  User
-}
-
+export { Vote, Post, User };
