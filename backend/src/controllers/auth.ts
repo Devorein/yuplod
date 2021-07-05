@@ -16,6 +16,7 @@ export async function register(
   res: Response
 ) {
   const { data } = req.body;
+  // Validates the user input
   const errorMessages = checkFields(data, [
     [
       'email',
@@ -40,12 +41,13 @@ export async function register(
     createJsonErrorResponse(res, errorMessages, 400);
   } else {
     try {
+      // Create a user in the database and a token as well
       const user = await User.create(data);
       const token = createJwtToken(user.id);
       createJsonSuccessResponse(res, { user, token });
     } catch (err) {
-      console.log(err);
       if (err.code === '23505') {
+        // Duplicate username or email
         createJsonErrorResponse(
           res,
           [
@@ -73,6 +75,7 @@ export async function login(
 ) {
   try {
     const { data } = req.body;
+    // Checks for the fields in the payload
     if (!data.email && !data.username) {
       createJsonErrorResponse(
         res,
@@ -82,6 +85,7 @@ export async function login(
     }
     let user: IUser | null = null;
     if (data.email) {
+      // Check if any user with that email exists
       user = (await User.getByEmailWithPassword(data.email))[0];
       if (!user) {
         createJsonErrorResponse(res, [
@@ -89,6 +93,7 @@ export async function login(
         ]);
       }
     } else if (data.username) {
+      // Check if any user with that username exists
       user = (await User.getByUsernameWithPassword(data.username))[0];
       if (!user) {
         createJsonErrorResponse(res, [
@@ -99,6 +104,7 @@ export async function login(
 
     if (user) {
       const { password } = user;
+      // Check if the payload password matches with the one stored in tdb
       const isMatch = await argon2.verify(password, data.password);
       if (isMatch) {
         createJsonSuccessResponse(res, {

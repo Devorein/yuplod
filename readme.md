@@ -11,6 +11,19 @@ In order to start the backend you'll need to go to the `backend` folder and run 
 3. npm run `build`
 4. npm run `start`
 5. After a while you'll see a `dist` folder, create `static/uploads` to the dist folder, this is where all the uploaded images will be stored
+6. Create a `.env` file in the backend folder with the following keys
+
+```txt
+PORT=server port
+PG_USER=postgres database user
+NODE_ENV=node environment
+PG_PASSWORD=postgres database password
+PG_PORT=postgres database port
+PG_DATABASE=postgres database
+PG_HOST=postgres host
+JWT_SECRET=jwt secret used to sign the token
+JWT_EXPIRE=expiry date of the token
+```
 
 For the frontend just go the the `frontend` folder and run the script `npm run start`
 
@@ -35,13 +48,13 @@ The frontend of yuplod is made using
 ## Breakdown
 
 1. The user has to first register to use the app as otherwise, they wont be able to
-  1. Create any post
-  1. Vote on any posts
-2. In the registration process the user has to provide their email, password, username, first_name and last_name.
-3. Both email and password must be unique so user cannot create multiple accounts with similar username or email
-4. After registration is done, the user can logout anytime.
-5. If the user has logged out but has registered then they just need to login back using either email/username or password.
-6. After logging in the user can create post. They can also vote on posts.
+1. Create any post
+1. Vote on any posts
+1. In the registration process the user has to provide their email, password, username, first_name and last_name.
+1. Both email and password must be unique so user cannot create multiple accounts with similar username or email
+1. After registration is done, the user can logout anytime.
+1. If the user has logged out but has registered then they just need to login back using either email/username or password.
+1. After logging in the user can create post. They can also vote on posts.
 
 In the initial load the jwt token stored in users localStorage is sent to the server to validate the user. If the token is verified to be of a users, then they are logged in, otherwise they have to login again.
 

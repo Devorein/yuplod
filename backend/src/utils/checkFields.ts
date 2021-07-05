@@ -1,3 +1,9 @@
+/**
+ * Checks if the fields exists on the provided data, and also run a validator against them
+ * @param data The object where the fields should be checked
+ * @param fields An array of string or tuple [fieldName, cb] to iterate over
+ * @returns
+ */
 export function checkFields<T>(
   data: T,
   fields: (keyof T | [keyof T, (data: any) => string | true])[]
