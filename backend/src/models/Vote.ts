@@ -16,13 +16,14 @@ export default class Vote {
   }
 
   static async update(
-    data: { vote_id: number; amount: number }
+    data: { amount: number; post_id: number },
+    user_id: number
   ) {
-    let { amount, vote_id } = data;
+    let { amount, post_id } = data;
     amount = amount < 0 ? -1 : 1;
     const { rows: votes } = await pool.query<IVote>(
-      'UPDATE votes SET amount = $1 WHERE id = $2;',
-      [amount, vote_id]
+      'UPDATE votes SET amount = $1 WHERE post_id = $2 AND user_id = $3;',
+      [amount, post_id, user_id]
     );
     return votes;
   }
