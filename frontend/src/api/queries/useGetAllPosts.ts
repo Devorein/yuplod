@@ -5,7 +5,7 @@ import { IPostWithUserAndVotes } from '../../types';
 
 export default function useGetAllPosts() {
   const token = localStorage.getItem(JWT_TOKEN_LS_KEY);
-  const query = useQuery('posts', () => {
+  const query = useQuery(['posts'], () => {
     return axios.get<{ data: IPostWithUserAndVotes[] }>(
       `${API_ENDPOINT}/posts`,
       {

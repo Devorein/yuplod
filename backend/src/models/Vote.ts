@@ -19,8 +19,8 @@ export default class Vote {
     data: { amount: number; post_id: number },
     user_id: number
   ) {
-    let { amount, post_id } = data;
-    amount = amount < 0 ? -1 : 1;
+    data.amount = data.amount < 0 ? -1 : 1;
+    const { amount, post_id } = data;
     const { rows: votes } = await pool.query<IVote>(
       'UPDATE votes SET amount = $1 WHERE post_id = $2 AND user_id = $3 RETURNING *;',
       [amount, post_id, user_id]
@@ -29,10 +29,12 @@ export default class Vote {
   }
 
   static async delete(post_id: number, user_id: number) {
-    await pool.query<IVote>(
-      'DELETE from votes where post_id = $1 AND user_id = $2',
-      [user_id, post_id]
+    const { rows: votes } = await pool.query<IVote>(
+      'DELETE from votes where post_id = $1 AND user_id = $2 RETURNING *',
+      [post_id, user_id]
     );
-    return { deleted: 1 };
+    return {
+      deleted: votes.length
+    };
   }
 }

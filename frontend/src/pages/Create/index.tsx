@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useState } from 'react';
+import { useQueryClient } from "react-query";
 import * as Yup from 'yup';
 import { useCreatePostMutation } from "../../api";
 import { FormButton, InputField, Upload } from '../../components';
@@ -17,7 +18,8 @@ const createPostInputSchema = Yup.object().shape({
 export default function Create() {
   const mutation = useCreatePostMutation();
   const currentUser = useRedirect(true);
-  const [file, setFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File | null>(null);
+  const client = useQueryClient();
   return (
     currentUser ? <Formik validationSchema={createPostInputSchema} validateOnMount initialValues={{ caption: '' } as ICreatePostPayload} onSubmit={(values, { setErrors, setValues }) => mutation.mutate(values, {
       async onSuccess({ data }) {
@@ -33,7 +35,7 @@ export default function Create() {
                 authorization: `Bearer ${token}`
               }
             })
-            await axios.put(`${API_ENDPOINT}/posts/${data.data.id}`, {
+            const updateResponse = await axios.put(`${API_ENDPOINT}/posts/${data.data.id}`, {
               data: {
                 image_url: response.data.data.filePath
               }
@@ -41,10 +43,26 @@ export default function Create() {
               headers: {
                 authorization: `Bearer ${token}`
               }
+            });
+
+            client.setQueryData('posts', (posts: any) => {
+              return {
+                data: {
+                  data: posts.data.data.concat({
+                    ...updateResponse.data.data,
+                    post_id: updateResponse.data.data.id,
+                    votes: 0,
+                    voted: null,
+                    ...currentUser,
+                    id: updateResponse.data.data.id,
+                  })
+                }
+              }
             })
+
             setFile(null);
           } catch (err) {
-            console.log("An error occurred")
+            console.log(err)
           }
         }
       }

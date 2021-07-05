@@ -20,7 +20,7 @@ async function main() {
   app.use(express.static(path.resolve(__dirname, 'static')));
   app.use(fileUpload());
   app.use('/api/v1', router);
-  app.post('/api/v1/upload', auth, (req: Request, res: Response) => {
+  app.post('/api/v1/upload', auth(), (req: Request, res: Response) => {
     if (req.files === null) {
       createJsonErrorResponse(
         res,

@@ -12,6 +12,7 @@ export function auth(throwError?: boolean) {
       req.headers.authorization.startsWith('Bearer')
     )
       token = req.headers.authorization.split(' ')[1];
+
     if (!token && throwError)
       createJsonErrorResponse(
         res,

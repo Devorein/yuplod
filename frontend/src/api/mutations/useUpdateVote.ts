@@ -13,16 +13,19 @@ export function useUpdateVoteMutation() {
     AxiosResponse<IApiSuccess<IUpdateVoteResponse>>,
     AxiosResponse<IApiError>,
     IUpdateVotePayload
-  >((deleteVoteData) => {
+  >((updateVoteData) => {
     const token = localStorage.getItem(JWT_TOKEN_LS_KEY);
-    return axios.put(`${API_ENDPOINT}/votes`, {
-      headers: {
-        authorization: `Bearer ${token}`
+    return axios.put(
+      `${API_ENDPOINT}/votes`,
+      {
+        data: updateVoteData
       },
-      data: {
-        data: deleteVoteData
+      {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
       }
-    });
+    );
   });
 
   return mutation;
