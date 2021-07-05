@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
 import { useCreateVoteMutation } from "../../api";
 import { RootContext } from "../../contexts";
-import { IPostWithUser } from "../../types";
+import { IPostWithUserAndVotes } from "../../types";
 import { parseDate } from "../../utils";
 import "./style.scss";
 
@@ -16,8 +16,8 @@ function PostCardDate(props: { label: string, date: string, className?: string }
   </div>
 }
 
-export default function PostCard(prop: IPostWithUser) {
-  const [voteAmount, setVoteAmount] = useState(0);
+export default function PostCard(prop: IPostWithUserAndVotes) {
+  const [voteAmount, setVoteAmount] = useState(prop.voted !== null ? prop.voted : 0);
   const createVoteMutation = useCreateVoteMutation();
   const { currentUser } = useContext(RootContext);
   const votes = (parseInt(prop.votes ?? 0) + voteAmount)
@@ -28,7 +28,7 @@ export default function PostCard(prop: IPostWithUser) {
         <Typography className="fs-16 fw-700">{prop.username}</Typography>
       </div>
       <div className="flex p-10 ai-c bg-light jc-sb">
-        <BiUpvote className="c-p" fill={voteAmount === 1 ? green[500] : 'white'} size={20} onClick={() => {
+        <BiUpvote className="c-p" fill={(voteAmount === 1) ? green[500] : 'white'} size={20} onClick={() => {
           if (currentUser) {
             createVoteMutation.mutate({
               amount: 1,
@@ -37,7 +37,7 @@ export default function PostCard(prop: IPostWithUser) {
             setVoteAmount(voteAmount === 1 ? 0 : 1)
           }
         }} />
-        <Typography className="fw-700 ml-10 mr-10" style={{ color: votes < 0 ? red[500] : green[500] }}>{votes}</Typography>
+        <Typography className="fw-700 ml-10 mr-10" style={{ color: votes < 0 ? red[500] : votes > 0 ? green[500] : 'white' }}>{votes}</Typography>
         <BiDownvote className="c-p" fill={voteAmount === -1 ? red[500] : 'white'} size={20} onClick={() => {
           if (currentUser) {
             createVoteMutation.mutate({

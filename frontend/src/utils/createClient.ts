@@ -6,7 +6,8 @@ export const createClient = () => {
       queries: {
         staleTime: Infinity,
         cacheTime: Infinity,
-        refetchOnMount: true
+        refetchOnMount: true,
+        retry: false
       }
     }
   });

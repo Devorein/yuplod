@@ -8,6 +8,15 @@ export interface IPost {
   user_id: number;
 }
 
+export interface IPostWithVotesAndUsers extends IPost {
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  votes: number;
+  voted: number;
+}
+
 export interface IUser {
   id: number;
   created_at: string;
@@ -43,6 +52,6 @@ export type IRequest = Request & { user: IUser };
 
 export interface IVote {
   amount: number;
-  user_id: number
-  post_id: number
+  user_id: number;
+  post_id: number;
 }

@@ -53,12 +53,13 @@ export interface IApiError {
   status: 'error';
 }
 
-export interface IPostWithUser extends IPost {
+export interface IPostWithUserAndVotes extends IPost {
   email: string;
   username: string;
   first_name: string;
   last_name: string;
   votes: string;
+  voted: number | null;
 }
 
 export interface IRegisterAuthPayload {
@@ -91,3 +92,7 @@ export interface ICreatePostPayload {
   caption: string;
 }
 export interface ICreatePostResponse extends IPost {}
+
+export interface IDeleteVotePayload {
+  post_id: number;
+}

@@ -80,5 +80,4 @@ INSERT INTO votes (user_id, post_id, amount) VALUES (5, 4, 1);
 INSERT INTO votes (user_id, post_id, amount) VALUES (3, 3, 1);
 INSERT INTO votes (user_id, post_id, amount) VALUES (7, 2, -1);
 INSERT INTO votes (user_id, post_id, amount) VALUES (6, 1, -1);
-INSERT INTO votes (user_id, post_id, amount) VALUES (1, 10, 1);
 INSERT INTO votes (user_id, post_id, amount) VALUES (7, 2, -1);
