@@ -7,9 +7,10 @@ import {
 import { generateDynamicUpdateQuery, pool } from '../utils';
 
 export default class Post {
-  static async getAll() {
+  static async getAll(user_id: number | null) {
     const { rows: posts } = await pool.query<IPostWithVotesAndUsers>(
-      'SELECT p.*, p.id as post_id, u.username, u.first_name, u.last_name, u.email, (SELECT v.amount as voted from votes as v where v.post_id = p.id AND v.user_id = 5), (SELECT SUM(v.amount) as votes from votes as v where v.post_id = p.id) FROM posts as p LEFT JOIN users as u on u.id = p.user_id;'
+      'SELECT p.*, p.id as post_id, u.username, u.first_name, u.last_name, u.email, (SELECT v.amount as voted from votes as v where v.post_id = p.id AND v.user_id = $1), (SELECT SUM(v.amount) as votes from votes as v where v.post_id = p.id) FROM posts as p LEFT JOIN users as u on u.id = p.user_id;',
+      [user_id]
     );
     return posts;
   }

@@ -18,11 +18,7 @@ export async function createVote(
 }
 
 export async function updateVote(
-  req: Request<
-    any,
-    any,
-    { data: { post_id: number; amount: number; vote_id: number } }
-  >,
+  req: Request<any, any, { data: { post_id: number; amount: number } }>,
   res: Response
 ) {
   try {

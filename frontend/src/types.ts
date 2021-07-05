@@ -96,3 +96,8 @@ export interface ICreatePostResponse extends IPost {}
 export interface IDeleteVotePayload {
   post_id: number;
 }
+export interface IUpdateVotePayload {
+  post_id: number;
+  amount: number;
+}
+export interface IUpdateVoteResponse extends IVote {}

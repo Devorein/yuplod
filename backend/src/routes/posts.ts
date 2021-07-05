@@ -10,10 +10,10 @@ import { auth } from '../middlewares';
 
 const PostsRouter = express.Router();
 
-PostsRouter.route('/').get(getAllPosts).post(auth, createPost);
+PostsRouter.route('/').get(auth(false), getAllPosts).post(auth(), createPost);
 PostsRouter.route('/:id')
   .get(getPostById)
-  .put(auth, updatePost)
-  .delete(auth, deletePost);
+  .put(auth(), updatePost)
+  .delete(auth(), deletePost);
 
 export default PostsRouter;

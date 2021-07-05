@@ -7,9 +7,10 @@ import {
   createJsonSuccessResponse
 } from '../utils';
 
-export async function getAllPosts(_: Request, res: Response) {
+export async function getAllPosts(req: Request, res: Response) {
   try {
-    const posts = await Post.getAll();
+    const { user } = req as IRequest;
+    const posts = await Post.getAll(user?.id);
     createJsonSuccessResponse(res, posts);
   } catch (err) {
     createJsonErrorResponse(res, [err.message]);
