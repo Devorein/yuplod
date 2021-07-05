@@ -4,6 +4,7 @@ import { JWT_TOKEN_LS_KEY } from '../constants';
 import { RootContext } from '../contexts';
 import { IUser } from '../types';
 
+// Redirect the user to home page and store the token in ls, if the user has successfully logged in
 export function useAuthSuccess() {
   const { setCurrentUser } = useContext(RootContext);
   const history = useHistory();

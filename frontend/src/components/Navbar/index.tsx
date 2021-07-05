@@ -21,12 +21,14 @@ export default function Navbar() {
   useCurrentUser();
 
   function render() {
+    // IF the user is not authenticated show only the register and login buttons
     if (!isAuth) {
       return <>
         <NavbarButton to={`/register`} text={"Register"} />
         <NavbarButton to={`/login`} text={"Login"} />
       </>
     } else {
+      // IF the user is authenticated show the authenticated user buttons
       return <div className="flex ai-c">
         <NavbarButton text={"Logout"} onClick={() => {
           localStorage.removeItem(JWT_TOKEN_LS_KEY)

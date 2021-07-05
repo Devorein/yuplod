@@ -36,6 +36,7 @@ export default function PostCard(props: IPostCardProps) {
       <div className="flex p-10 ai-c bg-light jc-sb">
         <BiUpvote className="c-p" fill={(voted === 1) ? green[500] : 'white'} size={20} onClick={() => {
           if (currentUser) {
+            // Create, update or delete the vote based on the state of the post.voted field
             try {
               if (voted === 1) {
                 deleteVoteMutation.mutate({

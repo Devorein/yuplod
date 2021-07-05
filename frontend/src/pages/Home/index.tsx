@@ -18,6 +18,7 @@ export default function Home() {
     const posts = data.data.data;
     content = <div className="Home-postsContainer">
       {posts.map((post, index) => <PostCard post={post} key={post.id} onUpdate={(data: IPostWithUserAndVotes) => {
+        // Update the cache to reflect the post votes and voted fields
         posts[index] = data;
         client.setQueryData('posts', {
           data: {
